@@ -1,27 +1,46 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Log in{% endblock %}
+{# templates/security/login.html.twig #} {% extends 'base.html.twig' %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
 
-    <div class="form-group">
-        <label for="inputEmail">Email:</label>
-        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 ml-md-auto">
+            <div class="card bg-light mb-3 mt-5" style="width: 800px">
+                <div class="card-body">
+                    <div class="card-header mb-3">Login</div>
+
+
+                    <form method="post">
+                        {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+                        {% endif %}
+
+                        <div class="form-group">
+                            <div class="col-md-12 mb-3">
+                                <label for="inputEmail">Email:</label>
+                                <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
+                                       class="form-control" required autofocus>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 mb-3">
+                                <label for="inputPassword">Password:</label>
+                                <input type="password" name="password" id="inputPassword" class="form-control" required>
+                            </div>
+                        </div>
+
+
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}"
+                        >
+                        <button type="submit" class="btn btn-primary">Sign in</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="inputPassword">Password:</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" required>
-    </div>
+</div>
 
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-    <button type="submit" class="btn btn-primary">Sign in</button>
-
-</form>
 {% endblock %}
