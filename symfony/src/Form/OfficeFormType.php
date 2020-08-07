@@ -10,6 +10,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class OfficeFormType extends AbstractType
 {
@@ -54,7 +56,27 @@ class OfficeFormType extends AbstractType
                     'constraints' => [new NotBlank()],
                     'attr' => ['class' => 'form-control']
                 ]
-            )
+            )/*
+            ->add('image', FileType::class,
+                [
+                    'label' => 'Image',
+                    'attr' => ['class' => 'form-control'],
+                    'mapped' => false,
+                    'required' => false,
+                    'multiple' => false,
+                    'constraints' => [
+                        new File([
+                            'maxSize' => '1024k',
+                            'mimeTypes' => [
+                                'image/jpg',
+                                'image/png',
+                            ],
+                            'mimeTypesMessage' => 'Please upload a valid Image file',
+                        ])
+                    ],
+
+                ]
+            )*/
             ->add(
                 'create',
                 SubmitType::class,
