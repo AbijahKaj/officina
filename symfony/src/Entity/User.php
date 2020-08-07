@@ -2,12 +2,17 @@
 
 namespace App\Entity;
 
+use DateTime;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ *
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields={"email"}, message="This email is already taken")
  */
 class User implements UserInterface {
     /**
@@ -23,6 +28,16 @@ class User implements UserInterface {
     private $email;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $fullname;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $phone;
+
+    /**
      * @ORM\Column(type="json")
      */
     private $roles = [];
@@ -32,6 +47,11 @@ class User implements UserInterface {
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
 
     public function getId(): ?int {
         return $this->id;
@@ -73,6 +93,36 @@ class User implements UserInterface {
         return $this;
     }
 
+    public function getPhone(): ?string {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getFullname(): ?string {
+        return $this->fullname;
+    }
+
+    public function setFullname(string $fullname): self {
+        $this->fullname = $fullname;
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): self {
+        $this->created = $created;
+
+        return $this;
+    }
+
     /**
      * @see UserInterface
      */
@@ -99,6 +149,13 @@ class User implements UserInterface {
     public function eraseCredentials() {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onAdd() {
+        $this->setCreated(new DateTime('now'));
     }
 
 }
