@@ -25,6 +25,9 @@ Browse our catalog of nearby available offices and pick the one you want or rent
 - Docker
 
 ## Installation
+```
+composer install
+```
 
 Using [Symfony CLI][sf_server]:
 
@@ -39,7 +42,10 @@ Or using Docker:
 
 run docker and connect to container:
 ```
- docker-compose up -d
+docker-compose up -d
+docker-compose exec php sh
+bin/console doctrine:database:create --if-not-exists
+bin/console doctrine:schema:update --force
 ```
 
 Navigate to [localhost:8001](http://localhost/) in your browser
