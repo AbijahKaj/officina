@@ -17,9 +17,11 @@
                     {% endfor %}
                 {% endfor %}
             </div>
+            {% if app.user %}
             <div class="col-md-12 col-lg-12 col-xl-12">
                 <a type="button" href="{{ path('post_office') }}" class="btn btn-primary pull-right">Add Entry</a>
             </div>
+            {% endif %}
             <div class="col-sm-12 blog-main">
                 <table class="table table-striped">
                     <thead>
