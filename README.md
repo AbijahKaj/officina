@@ -7,7 +7,7 @@ Companies have invested a lot in remote work tools already, and they have seen p
 
 Post COVID-19, many companies have already announced that they won't be returning to the old way of working every day from the office anymore.
 
-Working remotely more often not only wil help reduce traffic jams and save time on commuting, but also can save the employers a lot of money on the office and real estate costs.
+Working remotely more often not only will help reduce traffic jams and save time on commuting, but also can save the employers a lot of money on the office and real estate costs.
 
 According to a research, an employer can save $11,000 a year for every employee who works remotely half the time!
 
@@ -21,7 +21,7 @@ Browse our catalog of nearby available offices and pick the one you want or rent
 - PHP 7.4
 - Symfony
 - MySQL
-- Bootstrap
+- Bootstrap 4
 
 ## Installation
 run docker and connect to container:
