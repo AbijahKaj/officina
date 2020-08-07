@@ -7,7 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OfficeController extends AbstractController {
     /**
-     * @Route("/add-office", name="add")
+     * @Route("/add-office", name="add-office")
      */
     public function index()
     {
