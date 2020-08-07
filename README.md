@@ -21,7 +21,7 @@ Browse our catalog of nearby available offices and pick the one you want or rent
 - PHP 7.4
 - Symfony
 - MySQL
-- Bootstrap
+- Bootstrap 4
 
 ## Installation
 run docker and connect to container:
