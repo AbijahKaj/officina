@@ -5,10 +5,9 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class OfficeController extends AbstractController
-{
+class OfficeController extends AbstractController {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/add-office", name="add")
      */
     public function index()
     {
