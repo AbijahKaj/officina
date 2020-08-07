@@ -11,8 +11,20 @@
        <div class="container">
         <div class="navbar-nav">
                {% if app.user %}
-                <span class="navbar-text"> You are logged in as:  {{ app.user.username }} |</span>
-                <a class="nav-item nav-link" href="{{ path('app_logout') }}">Logout</a>
+                <span class="navbar-text"> Hello {{ app.user.username }} |</span>
+                <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  My account
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="/profile">My profile</a>
+                  <a class="dropdown-item" href="#">My bookings</a>
+                  <a class="dropdown-item" href="#">My offices for renting</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
+                </div>
+             </div>
+
                {% else %}
                  <a class="nav-item nav-link" href="/login" >Login</a>
                  <a class="nav-item nav-link" href="/registration">Sign up</a>
