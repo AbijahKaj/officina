@@ -22,8 +22,21 @@ Browse our catalog of nearby available offices and pick the one you want or rent
 - Symfony
 - MySQL
 - Bootstrap 4
+- Docker
 
 ## Installation
+
+Using [Symfony CLI][sf_server]:
+
+```bash
+bin/console doctrine:database:create --if-not-exists
+bin/console doctrine:schema:update --force
+symfony server:start
+symfony open:local
+``` 
+
+Or using Docker:
+
 run docker and connect to container:
 ```
  docker-compose up -d
@@ -31,3 +44,4 @@ run docker and connect to container:
 
 Navigate to [localhost:8001](http://localhost/) in your browser
 
+[sf_server]: https://symfony.com/doc/current/setup/symfony_server.html
