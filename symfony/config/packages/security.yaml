@@ -25,7 +25,14 @@ security:
                 path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
-
+            oauth:
+                resource_owners:
+                    facebook: "/login/check-facebook"
+                oauth_user_provider:
+                    service: App\Security\UserProvider
+                login_path:   /login
+                use_forward:  false
+                failure_path: /login
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 

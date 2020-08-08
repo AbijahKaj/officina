@@ -3,23 +3,37 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use HWI\Bundle\OAuthBundle\Security\Core\Exception\AccountNotLinkedException;
 
 class SecurityController extends AbstractController {
     /**
      * @Route("/login", name="app_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response {
-         if ($this->getUser()) {
-             return $this->redirect('/');
-         }
-
+    public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
+    {
+        if ($this->getUser()) {
+            return $this->redirect('/');
+        }
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
+
+        if ($error instanceof AccountNotLinkedException) {
+            $key = time();
+            $session = $request->getSession();
+            if (!$session->isStarted()) {
+                $session->start();
+            }
+
+            $session->set('_hwi_oauth.registration_error.'.$key, $error);
+
+            return $this->redirectToRoute('app_register', array('key' => $key));
+        }
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }

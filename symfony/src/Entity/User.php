@@ -49,6 +49,13 @@ class User implements UserInterface {
     private $password;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="facebookId", type="string", nullable=true)
+     */
+    private $facebookId;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $created;
@@ -111,6 +118,30 @@ class User implements UserInterface {
         $this->fullname = $fullname;
 
         return $this;
+    }
+
+    /**
+     * Set facebook_id
+     *
+     * @param string $facebook_id
+     *
+     * @return User
+     */
+    public function setFacebookId($facebook_id)
+    {
+        $this->facebook_id = $facebook_id;
+
+        return $this;
+    }
+
+    /**
+     * Get facebook_id
+     *
+     * @return string
+     */
+    public function getFacebookId()
+    {
+        return $this->facebook_id;
     }
 
     public function getCreated(): ?\DateTimeInterface {
