@@ -7,14 +7,16 @@
 
   <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
 <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' type='text/css' />
-  <style type="text/css">
+    <link href='build/app.css' rel='stylesheet' />
+    <style type="text/css">
      #map {
       min-height: 400px;
       max-height: 450px;
     }
   </style>
-   {% block stylesheets %}
-   {% endblock %}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -57,8 +59,9 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'></script>
       <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
       <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+        <script src='build/app.js'></script>
       {% block javascripts %}
-          <script src="{{ asset('build/app.js') }}"></script>
+          {{ encore_entry_script_tags('app') }}
       {% endblock %}
 
 </body>
