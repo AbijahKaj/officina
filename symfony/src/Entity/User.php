@@ -51,9 +51,16 @@ class User implements UserInterface {
     /**
      * @var string
      *
-     * @ORM\Column(name="facebookId", type="string", nullable=true)
+     * @ORM\Column(name="facebook_id", type="string", nullable=true)
      */
     private $facebookId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="google_id", type="string", nullable=true)
+     */
+    private $googleId;
 
     /**
      * @ORM\Column(type="datetime")
@@ -121,27 +128,50 @@ class User implements UserInterface {
     }
 
     /**
-     * Set facebook_id
+     * Set googleId
      *
-     * @param string $facebook_id
+     * @param string $googleId
      *
      * @return User
      */
-    public function setFacebookId($facebook_id)
+    public function setGoogleId($googleId)
     {
-        $this->facebook_id = $facebook_id;
+        $this->googleId = $googleId;
 
         return $this;
     }
 
     /**
-     * Get facebook_id
+     * Get googleId
+     *
+     * @return string
+     */
+    public function getGoogleId()
+    {
+        return $this->googleId;
+    }
+    /**
+     * Set facebookId
+     *
+     * @param string $facebookId
+     *
+     * @return User
+     */
+    public function setFacebookId($facebookId)
+    {
+        $this->facebookId = $facebookId;
+
+        return $this;
+    }
+
+    /**
+     * Get facebookId
      *
      * @return string
      */
     public function getFacebookId()
     {
-        return $this->facebook_id;
+        return $this->facebookId;
     }
 
     public function getCreated(): ?\DateTimeInterface {
