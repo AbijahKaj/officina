@@ -31,8 +31,8 @@
     </div>
     <div class="slider-form">
         <div class="container">
-            <h2 class="text-left mb-1 text-white d-none d-sm-block">Find Your Dream Home</h2>
-            <p class="text-white mb-5 d-none d-sm-block">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard <br />dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <h2 class="text-left mb-1 text-white d-none d-sm-block">Rent an office</h2>
+            <p class="text-white mb-5 d-none d-sm-block">We have the office which suites your needs. You are just one step away from finding the right office.</p>
             <form>
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
