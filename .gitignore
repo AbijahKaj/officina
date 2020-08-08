@@ -20,3 +20,7 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+###> OS generated files ###
+.DS_Store
+###< OS generated files ###
