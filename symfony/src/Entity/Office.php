@@ -43,19 +43,14 @@ class Office
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $Image;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $lat;
-
-    /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=30, scale=18)
      */
     private $lon;
+
+    /**
+     * @ORM\Column(type="decimal", precision=30, scale=18)
+     */
+    private $lat;
 
 
     public function getId(): ?int
@@ -123,39 +118,31 @@ class Office
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getLon(): ?string
     {
-        return $this->Image;
+        return $this->lon;
     }
 
-    public function setImage(?string $Image): self
+    public function setLon(string $lon): self
     {
-        $this->Image = $Image;
+        $this->lon = $lon;
 
         return $this;
     }
 
-    public function getLat(): ?int
+    public function getLat(): ?string
     {
         return $this->lat;
     }
 
-    public function setLat(int $lat): self
+    public function setLat(string $lat): self
     {
         $this->lat = $lat;
 
         return $this;
     }
 
-    public function getLon(): ?int
-    {
-        return $this->lon;
-    }
 
-    public function setLon(int $lon): self
-    {
-        $this->lon = $lon;
 
-        return $this;
-    }
+
 }
