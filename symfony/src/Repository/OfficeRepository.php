@@ -19,6 +19,19 @@ class OfficeRepository extends ServiceEntityRepository
         parent::__construct($registry, Office::class);
     }
 
+    /**
+     * @return Office[] Returns an array of Office objects
+     */
+    public function findAllByOwner($uid)
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.user = :val')
+            ->addOrderBy('o.id', 'DESC')
+            ->setParameter('val', $uid)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Office[] Returns an array of Office objects
     //  */
