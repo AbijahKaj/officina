@@ -26,6 +26,8 @@ Browse our catalog of nearby available offices and pick the one you want or rent
 
 ## Installation
 ```
+git clone https://github.com/AbijahKaj/officina.git
+cd symfony
 composer install
 ```
 
