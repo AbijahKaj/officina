@@ -1,62 +1,123 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Team Hyper Gram">
+    <title>Officina | {% block title %}Office Rental{% endblock %}</title>
+    <!-- Favicon Icon -->
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-  <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
-<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' type='text/css' />
+    <!-- Material Design Icons -->
+    <link href="vendor/icons/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
+    <!-- Select2 CSS -->
+    <link href="vendor/select2/css/select2-bootstrap.css" rel="stylesheet" />
+    <link href="vendor/select2/css/select2.min.css" rel="stylesheet" />
+
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' type='text/css' />
     <link href='build/app.css' rel='stylesheet' />
     <style type="text/css">
-     #map {
-      min-height: 400px;
-      max-height: 450px;
-    }
-  </style>
+        #map {
+            min-height: 400px;
+            max-height: 450px;
+        }
+    </style>
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
+    <link href="{{ asset('css/samar.css') }}" rel="stylesheet">
 </head>
+
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <div class="navbar-nav">
+
+<!-- Navbar -->
+<header>
+    <div class="container position-relative">
+        <nav class="navbar navbar-expand-lg navbar-light bg-danger pr-3 pl-3">
+            <a class="navbar-brand text-success logo" href="/">
+                <img src="{{ asset('img/officina-logo.png') }}" alt="Officina Logo">
+            </a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbarlogin-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive"></div>
             {% if app.user %}
-                <span class="navbar-text"> Hello {{ app.user.username }} </span>
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0 margin-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            HOME
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <p class="nav-link">
+                            Hello {{ app.user.username }}
+                        </p>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            My Account
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/profile">My profile</a>
+                            <a class="dropdown-item" href="{{ path('order_index') }}">My bookings</a>
+                            <a class="dropdown-item" href="{{ path('my-offices-for-renting') }}">My offices for renting</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
+                        </div>
+                    </li>
+
+                </ul>
+
                 <div class="nav-item ml-2">
                     <a href="{{ path('post_office') }}" class="btn btn-outline-primary">Add an Office</a>
                 </div>
-                <a class="nav-item nav-link" href="/">Browse</a>
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        My account
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/profile">My profile</a>
-                        <a class="dropdown-item" href="{{ path('order_index') }}">My bookings</a>
-                        <a class="dropdown-item" href="{{ path('my-offices-for-renting') }}">My offices for renting</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
-                    </div>
-
-
-                </div>
 
             {% else %}
-                <a class="nav-item nav-link" href="/login">Login</a>
-                <a class="nav-item nav-link" href="/registration">Sign up</a>
+                <div class="my-2 my-lg-0 navbar-collapse collapse w-100 order-3 dual-collapse2">
+                    <ul class="list-inline main-nav-right">
+                        <li class="list-inline-item">
+                            <a class="btn btn btn-outline-primary btn-sm" href="/login"><i class="mdi mdi-account-outline"></i> Sign In</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="btn btn-primary btn-sm" href="/registration"><i class="mdi mdi-security-account"></i> Sign Up</a>
+                        </li>
+                    </ul>
+                </div>
             {% endif %}
-            <div class="navbar-nav">
+
+
+
+
             </div>
-        </div>
+        </nav>
     </div>
-</nav>
+</header>
+<!-- End Navbar -->
+
 <div class="container mt-4">
     {% block body %}{% endblock %}
 </div>
+
+
+
+<!-- Footer -->
+<section class="section-padding footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <h4 class="mb-5 mt-0 text-center"><a class="logo" href="index-2.html"><img src="{{ asset('img/officina-logo.png') }}" alt="Officina logo"></a></h4>
+                <p class="text-center">Officina by Team Hyper Gram</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Footer -->
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -72,6 +133,6 @@
 {% block javascripts %}
     <script src="{{ asset('build/app.js') }}"></script>
 {% endblock %}
-
 </body>
+
 </html>

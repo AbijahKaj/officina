@@ -22,16 +22,7 @@
 <script src="vendor/select2/js/select2.min.js"></script>
 <!-- Custom -->
 <script src="js/custom.js"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
 
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-
-    gtag('config', 'UA-120909275-1');
-</script>
 </body>
 
 </html>
