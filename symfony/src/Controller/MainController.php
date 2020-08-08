@@ -38,9 +38,7 @@ class MainController extends AbstractController {
     public function entriesAction()
     {
         $geojson = array( 'type' => 'FeatureCollection', 'features' => array());
-        $data = $this->officePostRepository->findBy([
-                'available' => true
-        ]);
+        $data = $this->officePostRepository->findAll();
         foreach ($data as $row) {
 
             $marker = array(
@@ -88,25 +86,22 @@ class MainController extends AbstractController {
 	    // Check is valid
 	    if ($form->isSubmitted() && $form->isValid()) {
 	    	
-	    	$images = $request->files->get("images");
-	    	if ($images) {
-	    	    $files = [];
-	    	    foreach ($images as $image){
-                    $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-                    // this is needed to safely include the file name as part of the URL
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$image->guessExtension();
-                    try {
-                        $image->move(
-                            $this->getParameter('upload_directory'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file upload
-                    }
-                    $files[] = $newFilename;
-                }
-                $office->setImages($files);
+	    	$image = $request->files->get("image");
+	    	if ($image) {
+	            $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+	            // this is needed to safely include the file name as part of the URL
+	            $safeFilename = $slugger->slug($originalFilename);
+	            $newFilename = $safeFilename.'-'.uniqid().'.'.$image->guessExtension();
+	            try {
+	                $image->move(
+	                    $this->getParameter('upload_directory'),
+	                    $newFilename
+	                );
+	            } catch (FileException $e) {
+	                // ... handle exception if something happens during file upload
+	            }
+
+	            $office->setImage($newFilename);
 	        }
 	        
 

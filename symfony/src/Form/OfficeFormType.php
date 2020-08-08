@@ -3,17 +3,15 @@
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\All;
-use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class OfficeFormType extends AbstractType
 {
@@ -85,25 +83,27 @@ class OfficeFormType extends AbstractType
                     'constraints' => [new NotBlank()],
                     'attr' => ['class' => 'form-control']
                 ]
-            )
-            ->add('images', HiddenType::class,[])
-            ->add('upload', FileType::class,
+            )/*
+            ->add('image', FileType::class,
                 [
-                    'label' => 'Images',
+                    'label' => 'Image',
                     'attr' => ['class' => 'form-control'],
                     'mapped' => false,
-                    'multiple' => true,
+                    'required' => false,
+                    'multiple' => false,
                     'constraints' => [
-                        new All([
-                            new Image([
-                                'maxSize' => '5M'
-                            ])
+                        new File([
+                            'maxSize' => '1024k',
+                            'mimeTypes' => [
+                                'image/jpg',
+                                'image/png',
+                            ],
+                            'mimeTypesMessage' => 'Please upload a valid Image file',
                         ])
-
                     ],
 
                 ]
-            )
+            )*/
             ->add(
                 'create',
                 SubmitType::class,
