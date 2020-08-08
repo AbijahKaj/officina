@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\OrderRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=OrderRepository::class)
@@ -35,11 +36,26 @@ class Order
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Assert\GreaterThanOrEqual(
+     *      value = "today",
+     *      message = "The date should be greater than today!",
+     *      groups={"new_order"}
+     * )
      */
     private $from_date;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Assert\GreaterThanOrEqual(
+     *      value = "today",
+     *      message = "The date should be greater than today!",
+     *      groups={"new_order"}
+     * )
+     * @Assert\Expression(
+     *     "this.getUntilDate() >= this.getFromDate()",
+     *     message="The from date should start before the end date!",
+     *     groups={"new_order"}
+     * )
      */
     private $until_date;
 
