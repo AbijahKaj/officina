@@ -3,20 +3,20 @@
 {% block title %}Order index{% endblock %}
 
 {% block body %}
-    <h1>Order index</h1>
+    <h1>My orders</h1>
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Office</th>
-                <th>Price</th>
-                <th>From</th>
-                <th>Until</th>
-                <th>Approved</th>
-                <th>Remarks</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Office</th>
+            <th>Price</th>
+            <th>From</th>
+            <th>Until</th>
+            <th>Approved</th>
+            <th>Remarks</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for order in orders %}
@@ -31,7 +31,7 @@
                         <span class="badge badge-pill badge-danger">Rejected</span>
                     {% elseif order.approved  == '1' %}
                         <span class="badge badge-pill badge-success">Approved</span>
-                    {% else  %}
+                    {% else %}
                         <span class="badge badge-pill badge-primary">Pending</span>
                     {% endif %}
                 </td>
