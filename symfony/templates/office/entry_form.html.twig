@@ -20,15 +20,16 @@
    {% endblock %}
 {% block body %}
     <div class="container">
-        <div class="blog-header">
-            <h2 class="blog-title"></h2>
+        <div class="offices-header">
+            <h2 class="offices-title"></h2>
         </div>
         <div class="row">
+            <div class="col-sm-12 offices-main">
         <div id='map' class="col-6">
             <pre id="coordinates" class="coordinates"></pre>
         </div>
         <div class="col-6">
-            <div class="col-sm-12 blog-main">
+            <div class="col-sm-12 offices-main">
                 {% for label, messages in app.flashes %}
                     {% for message in messages %}
                         <div class="bg-{{ label }}">
@@ -65,7 +66,6 @@
                     </div>
                 {{ form_end(form) }}
             </div>
-            </div>
         </div>
     </div>
 {% endblock %}
@@ -100,14 +100,14 @@
             })
             .setLngLat([0, 0])
             .addTo(map);
-             
+
         function onDragEnd() {
         var lngLat = marker.getLngLat();
         coordinates.style.display = 'block';
         coordinates.innerHTML =
         'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
         }
-         
+
         marker.on('dragend', onDragEnd);
         map.on('click', function(e) {
             marker.setLngLat(e.lngLat)
