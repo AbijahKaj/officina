@@ -20,8 +20,12 @@ class OrderController extends AbstractController
      */
     public function index(OrderRepository $orderRepository): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
         return $this->render('order/index.html.twig', [
-            'orders' => $orderRepository->findAll(),
+            'orders' => $orderRepository->findAllByBookedUser($this->getUser()->getId()),
         ]);
     }
 
