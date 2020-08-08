@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}{% endblock %}
+{% block title %}Officine - Office Rental{% endblock %}
 {% block body %}
     <div class="container">
         <div class="offices-header">
@@ -30,7 +30,9 @@
                     </div>
                     <p class="mb-1">{{ office.description }}</p>
                     <small>{{ office.location }}</small>
-                      {% if app.user is defined or office.user != app.user.id %}
+                      {% if app.user is not null and office.user != app.user.id %}
+                          <a href="{{ path('order_new', {'id': office.id}) }}" class="btn btn-success">Book</a>
+                      {% elseif app.user is null %}
                           <a href="{{ path('order_new', {'id': office.id}) }}" class="btn btn-success">Book</a>
                       {% endif %}
                   </a>
