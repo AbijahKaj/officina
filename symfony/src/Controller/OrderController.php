@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Office;
 use App\Entity\Order;
 use App\Form\OrderType;
 use App\Repository\OrderRepository;
@@ -34,18 +35,20 @@ class OrderController extends AbstractController
      */
     public function new(Request $request, $id): Response
     {
+        $entityManager = $this->getDoctrine()->getManager();
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
         $order = new Order();
         $order->setOfficeId($id);
+        $office = $entityManager->getRepository(Office::class)->find($id);
         $user = $this->getUser();
         $order->setBookedBy($user->getId());
         $form = $this->createForm(OrderType::class, $order, ['validation_groups' => 'new_order']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $order->setPrice($order->getFromDate()->diff($order->getUntilDate())->days * $office->getPrice());
             $entityManager->persist($order);
             $entityManager->flush();
 
