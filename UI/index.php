@@ -318,7 +318,9 @@
         </div>
         <div class="row mt-4">
             <div class="col-md-12 text-center">
-                <button class="btn btn-secondary font-weight-bold btn-lg" type="submit">VIEW ALL</button>
+                <a href="offices.php">
+                    <button class="btn btn-secondary font-weight-bold btn-lg">VIEW ALL</button>
+                </a>
             </div>
         </div>
     </div>
