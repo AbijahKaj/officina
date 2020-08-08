@@ -7,6 +7,9 @@
     background-color: #00853e;
     color: #fff;
 }
+h6.office{
+    cursor: pointer !important;
+}
 .marker {
     border: none;
     cursor: pointer;
@@ -22,32 +25,29 @@
 }
 
 .mapboxgl-popup-close-button {
-    display:none;
+    /*display:none;*/
 }
 .mapboxgl-popup-content {
-    font:400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
+    /*font:400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;*/
     padding:0;
     width:180px;
 }
 .mapboxgl-popup-content-wrapper {
     padding:1%;
 }
-.mapboxgl-popup-content h3 {
+.mapboxgl-popup-content h5 {
     background:#91c949;
     color:#fff;
-    margin:0;
     display:block;
     padding:10px;
     border-radius:3px 3px 0 0;
-    font-weight:700;
-    margin-top:-15px;
+    margin: -15px 0 0;
 }
 
-.mapboxgl-popup-content h4 {
+.mapboxgl-popup-content h6 {
     margin:0;
     display:block;
     padding: 10px 10px 10px 10px;
-    font-weight:400;
 }
 
 .mapboxgl-popup-content div {

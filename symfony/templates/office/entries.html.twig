@@ -27,11 +27,11 @@
                 {% endfor %}
             </div>
             <div class="col-sm-12 office-main">
-                <div class="list-group">
+                <div class="list-group" id="listing">
                     {% for office in entries %}
-                  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                  <div class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-1">{{ office.name }}</h5>
+                      <h6 class="mb-1 office" id="link-{{ office.id }}">{{ office.name }}</h6>
                       <small>Available</small>
                     </div>
                     <p class="mb-1">{{ office.description }}</p>
@@ -41,7 +41,7 @@
                       {% elseif app.user is null %}
                           <a href="{{ path('order_new', {'id': office.id}) }}" class="btn btn-success">Book</a>
                       {% endif %}
-                  </a>
+                  </div>
                     {% else %}
                         <div>
                             No offices available
@@ -86,9 +86,7 @@
           // Add the geocoder to the map
           //map.addControl(geocoder);
           var offices = {{ geojson|json_encode|raw }};
-          offices.features.forEach(function(office, i){
-              office.properties.id = i;
-          });
+
           console.log(offices);
 
 
@@ -139,62 +137,19 @@
           /**
            * Add a listing for each store to the sidebar.
            **/
-          function buildLocationList(data) {
-              var listings = document.createElement('div');
-              data.features.forEach(function(store, i){
-                  /**
-                   * Create a shortcut for `store.properties`,
-                   * which will be used several times below.
-                   **/
-                  var prop = store.properties;
-
-                  /* Add a new listing section to the sidebar. */
-                  var listing = listings.appendChild(document.createElement('div'));
-                  /* Assign a unique `id` to the listing. */
-                  listing.id = "listing-" + prop.id;
-                  /* Assign the `item` class to each listing for styling. */
-                  listing.className = 'item';
-
-                  /* Add the link to the individual listing created above. */
-                  var link = listing.appendChild(document.createElement('a'));
-                  link.href = '#';
-                  link.className = 'title';
-                  link.id = "link-" + prop.id;
-                  link.innerHTML = prop.address;
-
-                  /* Add details to the individual listing. */
-                  var details = listing.appendChild(document.createElement('div'));
-                  details.innerHTML = prop.city;
-                  if (prop.phone) {
-                      details.innerHTML += ' · ' + prop.phoneFormatted;
+          $(".office").click((e) => {
+              const clickedElement = $(e.target)
+              for (let i = 0; i < offices.features.length; i++) {
+                  if (clickedElement.attr('id') === "link-" + offices.features[i].properties.id) {
+                      let clickedListing = offices.features[i];
+                      flyToStore(clickedListing);
+                      createPopUp(clickedListing);
+                  }else {
+                      console.log(clickedElement.attr('id'))
                   }
-
-                  /**
-                   * Listen to the element and when it is clicked, do four things:
-                   * 1. Update the `currentFeature` to the store associated with the clicked link
-                   * 2. Fly to the point
-                   * 3. Close all other popups and display popup for clicked store
-                   * 4. Highlight listing in sidebar (and remove highlight for all other listings)
-                   **/
-                  link.addEventListener('click', function(e){
-                      for (var i=0; i < data.features.length; i++) {
-                          if (this.id === "link-" + data.features[i].properties.id) {
-                              var clickedListing = data.features[i];
-                              flyToStore(clickedListing);
-                              createPopUp(clickedListing);
-                          }
-                      }
-                      var activeItem = document.getElementsByClassName('active');
-                      if (activeItem[0]) {
-                          activeItem[0].classList.remove('active');
-                      }
-                      this.parentNode.classList.add('active');
-                  });
-
-              });
-              $('body').append(listings)
-          }
-
+              }
+              e.preventDefault()
+          })
           /**
            * Use Mapbox GL JS's `flyTo` to move the camera smoothly
            * a given center point.
@@ -214,23 +169,10 @@
               if (popUps[0]) popUps[0].remove();
               var popup = new mapboxgl.Popup({closeOnClick: false})
                   .setLngLat(currentFeature.geometry.coordinates)
-                  .setHTML('<h3>Sweetgreen</h3>' +
-                      '<h4>' + currentFeature.properties.address + '</h4>')
+                  .setHTML('<h5>'+currentFeature.properties.name+'</h5>' +
+                      '<h6>' + currentFeature.properties.address + '</h6>')
                   .addTo(map);
           }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         // After the map style has loaded on the page,
@@ -240,13 +182,6 @@
                 "type": "geojson",
                 "data": offices
             });
-
-            /**
-             * Add all the things to the page:
-             * - The location listings on the side of the page
-             * - The markers onto the map
-             */
-            buildLocationList(offices);
             addMarkers();
         });
 

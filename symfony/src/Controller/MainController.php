@@ -51,7 +51,8 @@ class MainController extends AbstractController {
                     )
                 ),
                 'properties' => array(
-                    'title' => $row->getName(),
+                    'id' => $row->getId(),
+                    'name' => $row->getName(),
                     'address' => $row->getLocation()
                 )
             );
