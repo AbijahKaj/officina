@@ -30,6 +30,15 @@ class OfficeFormType extends AbstractType
                 ]
             )
             ->add(
+                'price',
+                TextType::class,
+                [
+                    'label' => 'Price',
+                    'constraints' => [new NotBlank()],
+                    'attr' => ['class' => 'form-control']
+                ]
+            )
+            ->add(
                 'location',
                 TextType::class,
                 [

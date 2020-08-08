@@ -38,6 +38,11 @@ class Office
     private $available;
 
     /**
+     * @ORM\Column(type="decimal", precision=7, scale=2)
+     */
+    private $price;
+
+    /**
      * @ORM\Column(type="text")
      */
     private $description;
@@ -118,10 +123,23 @@ class Office
         return $this;
     }
 
+    public function setPrice(string $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
     public function getLon(): ?string
     {
         return $this->lon;
     }
+
 
     public function setLon(string $lon): self
     {

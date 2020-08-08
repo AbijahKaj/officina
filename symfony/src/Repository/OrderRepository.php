@@ -26,6 +26,7 @@ class OrderRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.booked_by = :val')
+            ->addOrderBy('o.id', 'DESC')
             ->setParameter('val', $uid)
             ->getQuery()
             ->getResult();
