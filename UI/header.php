@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Giftechies">
-    <meta name="author" content="Giftechies">
+    <meta name="description" content="Team Hyper Gram">
+    <meta name="author" content="Team Hyper Gram(Ankit Kumar Sharma, ">
     <title>Officina | Team Hyper Gram</title>
     <!-- Favicon Icon -->
     <link rel="icon" type="image/png" href="img/favicon.png">
