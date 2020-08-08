@@ -2,9 +2,9 @@
 {% block title %}{% endblock %}
 {% block body %}
     <div class="container">
-        <div class="blog-header">
-            <h1 class="blog-title">Available nearby Offices</h1>
-            <p class="lead blog-description"></p>
+        <div class="offices-header">
+            <h1 class="office-title">Available nearby Offices</h1>
+            <p class="lead office-description"></p>
         </div>
         <div class="row">
             <div class="col-md-12 col-lg-12 col-xl-12">
@@ -22,18 +22,20 @@
                 <a type="button" href="{{ path('post_office') }}" class="btn btn-primary pull-right">Add Entry</a>
             </div>
             {% endif %}
-            <div class="col-sm-12 blog-main">
+            <div class="col-sm-12 office-main">
                 <table class="table table-striped">
                     <thead>
                         <th>Title</th>
                         <th>Location</th>
                         <th>Description</th>
+                        <th>Booking</th>
                     </thead>
-                    {% for blogPost in entries %}
+                    {% for office in entries %}
                         <tr>
-                            <td>{{ blogPost.name }}</td>
-                            <td>{{ blogPost.location }}</td>
-                            <td>{{ blogPost.description }}</td>
+                            <td>{{ office.name }}</td>
+                            <td>{{ office.location }}</td>
+                            <td>{{ office.description }}</td>
+                            <td><a type="button" href="{{ path('order_new', {'id': office.id}) }}" class="btn btn-primary pull-right">Book</a></td>
                         </tr>
                     {% else %}
                         <tr>

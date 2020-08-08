@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order index{% endblock %}
+
+{% block body %}
+    <h1>Order index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Approved</th>
+                <th>Remarks</th>
+                <th>Booked_by</th>
+                <th>From_date</th>
+                <th>Until_date</th>
+                <th>Office_id</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.approved ? 'Yes' : 'No' }}</td>
+                <td>{{ order.remarks }}</td>
+                <td>{{ order.bookedBy }}</td>
+                <td>{{ order.fromDate ? order.fromDate|date('Y-m-d') : '' }}</td>
+                <td>{{ order.untilDate ? order.untilDate|date('Y-m-d') : '' }}</td>
+                <td>{{ order.officeId }}</td>
+                <td>
+                    <a href="{{ path('order_show', {'id': order.id}) }}">show</a>
+                    <a href="{{ path('order_edit', {'id': order.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

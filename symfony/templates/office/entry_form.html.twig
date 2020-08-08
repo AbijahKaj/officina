@@ -2,11 +2,11 @@
 {% block title %}{% endblock %}
 {% block body %}
     <div class="container">
-        <div class="blog-header">
-            <h2 class="blog-title"></h2>
+        <div class="offices-header">
+            <h2 class="offices-title"></h2>
         </div>
         <div class="row">
-            <div class="col-sm-12 blog-main">
+            <div class="col-sm-12 offices-main">
                 {% for label, messages in app.flashes %}
                     {% for message in messages %}
                         <div class="bg-{{ label }}">
