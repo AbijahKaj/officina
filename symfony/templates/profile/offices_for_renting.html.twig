@@ -30,13 +30,13 @@
                         <form method="post" action="{{ path('office_disable', {'id': office.id}) }}"
                               onsubmit="return confirm('Are you sure you want to disable this office?');">
                             <input type="hidden" name="_token" value="{{ csrf_token('update' ~ office.id) }}">
-                            <button class="btn btn-link">Disable</button>
+                            <button class="btn btn-link pl-0">Disable</button>
                         </form>
                     {% else %}
                         <form method="post" action="{{ path('office_enable', {'id': office.id}) }}"
                               onsubmit="return confirm('Are you sure you want to enable this office?');">
                             <input type="hidden" name="_token" value="{{ csrf_token('update' ~ office.id) }}">
-                            <button class="btn btn-link">Enable</button>
+                            <button class="btn btn-link pl-0">Enable</button>
                         </form>
                     {% endif %}
                 </td>
@@ -67,7 +67,7 @@
             <tr>
                 <td>{{ order.id }}</td>
                 <td>{{ order.officeId }}</td>
-                <td>42</td>
+                <td>{{ order.price }}</td>
                 <td>{{ order.fromDate ? order.fromDate|date('Y-m-d') : '' }}</td>
                 <td>{{ order.untilDate ? order.untilDate|date('Y-m-d') : '' }}</td>
                 <td>{{ order.remarks }}</td>
@@ -80,12 +80,12 @@
                         <form method="post" action="{{ path('order_approve', {'id': order.id}) }}"
                               onsubmit="return confirm('Are you sure you want to approve this order?');">
                             <input type="hidden" name="_token" value="{{ csrf_token('update' ~ order.id) }}">
-                            <button class="btn btn-link btn-sm">Approve</button>
+                            <button class="btn btn-link btn-sm pl-0">Approve</button>
                         </form>
                         <form method="post" action="{{ path('order_reject', {'id': order.id}) }}"
                               onsubmit="return confirm('Are you sure you want to reject this order?');">
                             <input type="hidden" name="_token" value="{{ csrf_token('update' ~ order.id) }}">
-                            <button class="btn btn-link btn-sm">Reject</button>
+                            <button class="btn btn-link btn-sm pl-0">Reject</button>
                         </form>
                     {% endif %}
                 </td>
