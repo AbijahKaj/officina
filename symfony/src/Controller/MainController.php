@@ -88,7 +88,8 @@ class MainController extends AbstractController {
 	    // Check is valid
 	    if ($form->isSubmitted() && $form->isValid()) {
 	    	
-	    	$images = $request->files->get("images");
+	    	$images = $form->get('upload')->getData();
+
 	    	if ($images) {
 	    	    $files = [];
 	    	    foreach ($images as $image){
@@ -97,8 +98,13 @@ class MainController extends AbstractController {
                     $safeFilename = $slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$image->guessExtension();
                     try {
+                        //$uploadDir = $this->get('kernel')->getRootDir() . '/../public/uploads/';
+                        $uploadDir = $this->getParameter('upload_directory');
+                        if (!file_exists($uploadDir) && !is_dir($uploadDir)) {
+                            mkdir($uploadDir, 0775, true);
+                        }
                         $image->move(
-                            $this->getParameter('upload_directory'),
+                            $uploadDir,
                             $newFilename
                         );
                     } catch (FileException $e) {

@@ -86,7 +86,6 @@ class OfficeFormType extends AbstractType
                     'attr' => ['class' => 'form-control']
                 ]
             )
-            ->add('images', HiddenType::class,[])
             ->add('upload', FileType::class,
                 [
                     'label' => 'Images',
