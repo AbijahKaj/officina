@@ -25,6 +25,7 @@ Browse our catalog of nearby available offices and pick the one you want or rent
 - Docker
 
 ## Installation
+Clone and install dependencies
 ```
 git clone https://github.com/AbijahKaj/officina.git
 cd symfony
