@@ -34,7 +34,25 @@ class OfficeFormType extends AbstractType
                 TextType::class,
                 [
                     'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control']
+                    'attr' => ['class' => 'form-control', 'id' => 'address']
+                ]
+            )
+            ->add(
+                'lat',
+                TextType::class,
+                [
+                    'label' => 'Latitude',
+                    'constraints' => [new NotBlank()],
+                    'attr' => ['class' => 'form-control', 'id' => 'lat', 'readonly' => true]
+                ]
+            )
+            ->add(
+                'lon',
+                TextType::class,
+                [
+                    'label' => 'Longitude',
+                    'constraints' => [new NotBlank()],
+                    'attr' => ['class' => 'form-control', 'id' => 'lon', 'readonly' => true]
                 ]
             )
             ->add(

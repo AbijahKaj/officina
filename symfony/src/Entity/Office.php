@@ -47,6 +47,16 @@ class Office
      */
     private $Image;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $lat;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $lon;
+
 
     public function getId(): ?int
     {
@@ -121,6 +131,30 @@ class Office
     public function setImage(?string $Image): self
     {
         $this->Image = $Image;
+
+        return $this;
+    }
+
+    public function getLat(): ?int
+    {
+        return $this->lat;
+    }
+
+    public function setLat(int $lat): self
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    public function getLon(): ?int
+    {
+        return $this->lon;
+    }
+
+    public function setLon(int $lon): self
+    {
+        $this->lon = $lon;
 
         return $this;
     }
