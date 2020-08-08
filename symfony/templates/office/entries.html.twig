@@ -20,60 +20,26 @@
                     {% endfor %}
                 {% endfor %}
             </div>
-            {% if app.user %}
-            <div class="col-md-12 col-lg-12 col-xl-12">
-                <a type="button" href="{{ path('post_office') }}" class="btn btn-primary pull-right">Add an Office</a>
-            </div>
-            {% endif %}
             <div class="col-sm-12 office-main">
                 <div class="list-group">
-                  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-1">List group item heading</h5>
-                      <small>3 days ago</small>
-                    </div>
-                    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                    <small>Donec id elit non mi porta.</small>
-                  </a>
-                  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-1">List group item heading</h5>
-                      <small class="text-muted">3 days ago</small>
-                    </div>
-                    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                    <small class="text-muted">Donec id elit non mi porta.</small>
-                  </a>
-                  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-1">List group item heading</h5>
-                      <small class="text-muted">3 days ago</small>
-                    </div>
-                    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                    <small class="text-muted">Donec id elit non mi porta.</small>
-                  </a>
-                </div>
-                <table class="table table-striped">
-                    <thead>
-                        <th>Title</th>
-                        <th>Location</th>
-                        <th>Description</th>
-                        <th>Booking</th>
-                    </thead>
                     {% for office in entries %}
-                        <tr>
-                            <td>{{ office.name }}</td>
-                            <td>{{ office.location }}</td>
-                            <td>{{ office.description }}</td>
-                            {% if office.user != app.user.id %}
-                            <td><a type="button" href="{{ path('order_new', {'id': office.id}) }}" class="btn btn-primary pull-right">Book</a></td>
-                            {% endif %}
-                        </tr>
+                  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">{{ office.name }}</h5>
+                      <small>Available</small>
+                    </div>
+                    <p class="mb-1">{{ office.description }}</p>
+                    <small>{{ office.location }}</small>
+                      {% if app.user is defined or office.user != app.user.id %}
+                          <a href="{{ path('order_new', {'id': office.id}) }}" class="btn btn-success">Book</a>
+                      {% endif %}
+                  </a>
                     {% else %}
-                        <tr>
-                            <td colspan="5">No offices available</td>
-                        </tr>
+                        <div>
+                            No offices available
+                        </div>
+
                     {% endfor %}
-                </table>
             </div>
         </div>
     </div>
