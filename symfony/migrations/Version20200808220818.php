@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200808114703 extends AbstractMigration
+final class Version20200808220818 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -20,12 +20,12 @@ final class Version20200808114703 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE office ADD price NUMERIC(7, 2) NOT NULL');
+        $this->addSql('ALTER TABLE office ADD images LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\'');
     }
 
     public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE office DROP price');
+        $this->addSql('ALTER TABLE office DROP images');
     }
 }
