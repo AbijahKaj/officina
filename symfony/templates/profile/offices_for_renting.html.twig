@@ -8,14 +8,14 @@
     <h2 class="h5 mt-5">My offices</h2>
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Location</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Location</th>
+            <th>Description</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for office in offices %}
@@ -26,7 +26,19 @@
                 <td>{{ office.location }}</td>
                 <td>{{ office.description }}</td>
                 <td>
-                    <a href="">delete</a>
+                    {% if office.available %}
+                        <form method="post" action="{{ path('office_disable', {'id': office.id}) }}"
+                              onsubmit="return confirm('Are you sure you want to disable this office?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('update' ~ office.id) }}">
+                            <button class="btn btn-link">Disable</button>
+                        </form>
+                    {% else %}
+                        <form method="post" action="{{ path('office_enable', {'id': office.id}) }}"
+                              onsubmit="return confirm('Are you sure you want to enable this office?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('update' ~ office.id) }}">
+                            <button class="btn btn-link">Enable</button>
+                        </form>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -37,19 +49,18 @@
         </tbody>
     </table>
 
-   <h2 class="h5 mt-5">My ordered offices</h2>
+    <h2 class="h5 mt-5">My ordered offices</h2>
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Office</th>
-                <th>Price</th>
-                <th>From</th>
-                <th>Until</th>
-                <th>Approved</th>
-                <th>Remarks</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Office</th>
+            <th>Price</th>
+            <th>From</th>
+            <th>Until</th>
+            <th>Remarks</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for order in orders %}
@@ -59,18 +70,24 @@
                 <td>42</td>
                 <td>{{ order.fromDate ? order.fromDate|date('Y-m-d') : '' }}</td>
                 <td>{{ order.untilDate ? order.untilDate|date('Y-m-d') : '' }}</td>
+                <td>{{ order.remarks }}</td>
                 <td>
                     {% if order.approved  == '0' %}
                         <span class="badge badge-pill badge-danger">Rejected</span>
                     {% elseif order.approved  == '1' %}
                         <span class="badge badge-pill badge-success">Approved</span>
-                    {% else  %}
-                        <span class="badge badge-pill badge-primary">Pending</span>
+                    {% else %}
+                        <form method="post" action="{{ path('order_approve', {'id': order.id}) }}"
+                              onsubmit="return confirm('Are you sure you want to approve this order?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('update' ~ order.id) }}">
+                            <button class="btn btn-link btn-sm">Approve</button>
+                        </form>
+                        <form method="post" action="{{ path('order_reject', {'id': order.id}) }}"
+                              onsubmit="return confirm('Are you sure you want to reject this order?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('update' ~ order.id) }}">
+                            <button class="btn btn-link btn-sm">Reject</button>
+                        </form>
                     {% endif %}
-                </td>
-                <td>{{ order.remarks }}</td>
-                <td>
-                    <a href="{{ path('order_show', {'id': order.id}) }}">show</a>
                 </td>
             </tr>
         {% else %}

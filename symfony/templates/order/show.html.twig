@@ -7,37 +7,37 @@
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ order.id }}</td>
-            </tr>
-            <tr>
-                <th>Approved</th>
-                <td>{{ order.approved ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Remarks</th>
-                <td>{{ order.remarks }}</td>
-            </tr>
-            <tr>
-                <th>Booked_by</th>
-                <td>{{ order.bookedBy }}</td>
-            </tr>
-            <tr>
-                <th>From_date</th>
-                <td>{{ order.fromDate ? order.fromDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Until_date</th>
-                <td>{{ order.untilDate ? order.untilDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Office_id</th>
-                <td>{{ order.officeId }}</td>
-            </tr>
+        <tr>
+            <th>ID</th>
+            <td>{{ order.id }}</td>
+        </tr>
+        <tr>
+            <th>Approved</th>
+            <td>{{ order.approved ? 'Yes' : 'No' }}</td>
+        </tr>
+        <tr>
+            <th>Remarks</th>
+            <td>{{ order.remarks }}</td>
+        </tr>
+        <tr>
+            <th>From</th>
+            <td>{{ order.fromDate ? order.fromDate|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Until</th>
+            <td>{{ order.untilDate ? order.untilDate|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td>42</td>
+        </tr>
+        <tr>
+            <th>Office</th>
+            <td>{{ order.officeId }}</td>
+        </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('order_index') }}">back to list</a>
+    <a href="{{ path('order_index') }}">back to my orders</a>
 
 {% endblock %}

@@ -101,4 +101,41 @@ class OrderController extends AbstractController
 
         return $this->redirectToRoute('order_index');
     }
+
+    /**
+     * @Route("/approve/{id}", name="order_approve", methods={"POST"})
+     */
+    public function approve(Request $request, Order $order): Response
+    {
+        if ($this->isCsrfTokenValid('update' . $order->getId(), $request->request->get('_token'))) {
+            $this->updateApprovedOrder($order, TRUE);
+        }
+
+        return $this->redirectToRoute('my-office-for-renting');
+
+    }
+
+    /**
+     * @Route("/reject/{id}", name="order_reject", methods={"POST"})
+     */
+    public function reject(Request $request, Order $order): Response
+    {
+        if ($this->isCsrfTokenValid('update' . $order->getId(), $request->request->get('_token'))) {
+            $this->updateApprovedOrder($order, FALSE);
+        }
+
+        return $this->redirectToRoute('my-office-for-renting');
+    }
+
+    /**
+     * Update approved status of an order.
+     */
+    public function updateApprovedOrder(Order $order, $approved)
+    {
+        $order->setApproved($approved);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($order);
+        $entityManager->flush();
+    }
+
 }

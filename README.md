@@ -34,12 +34,15 @@ composer install
 
 Using [Symfony CLI][sf_server]:
 
+(For Windows : Kindly append php before the bin)
+
 ```bash
 bin/console doctrine:database:create --if-not-exists
 bin/console doctrine:schema:update --force
 symfony server:start
 symfony open:local
 ``` 
+
 
 Or using Docker:
 
