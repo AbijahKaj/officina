@@ -35,6 +35,11 @@ class Order
     private $booked_by;
 
     /**
+     * @ORM\Column(type="decimal", precision=7, scale=2)
+     */
+    private $price;
+
+    /**
      * @ORM\Column(type="date", nullable=true)
      * @Assert\GreaterThanOrEqual(
      *      value = "today",
@@ -91,6 +96,18 @@ class Order
         $this->remarks = $remarks;
 
         return $this;
+    }
+
+    public function setPrice(string $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
     }
 
     public function getBookedBy(): ?int
