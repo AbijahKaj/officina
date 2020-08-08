@@ -55,7 +55,7 @@ class ProfileController extends AbstractController {
     }
 
     /**
-     * @Route("/offices-for-renting", name="my-office-for-renting")
+     * @Route("/offices-for-renting", name="my-offices-for-renting")
      */
     public function officesForRenting(Request $request) {
         if (!$this->getUser()) {

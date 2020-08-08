@@ -35,34 +35,34 @@ class MainController extends AbstractController {
 	 * @Route("/", name="homepage")
 	 * @Route("/entries", name="entries")
 	 */
-	public function entriesAction()
-	{
-		$geojson = array( 'type' => 'FeatureCollection', 'features' => array());
-		$data = $this->officePostRepository->findAll();
-		foreach ($data as $row) {
-			
-		  $marker = array(
-		    'type' => 'Feature',
-		    'properties' => array(
-		      'title' => $row->getName(),
-		      'marker-color' => '#f00',
-		      'marker-size' => 'small'
-		    ),
-		    'geometry' => array(
-		      'type' => 'Point',
-		      'coordinates' => array( 
-		        $row->getLat(),
-		        $row->getLon()
-		      )
-		    )
-		  );
-		  array_push($geojson['features'], $marker);
-		}
-	    return $this->render('office/entries.html.twig', [
-	        'entries' => $data,
-	        'geojson' => $geojson
-	    ]);
-	}
+    public function entriesAction()
+    {
+        $geojson = array( 'type' => 'FeatureCollection', 'features' => array());
+        $data = $this->officePostRepository->findAll();
+        foreach ($data as $row) {
+
+            $marker = array(
+                'type' => 'Feature',
+                'geometry' => array(
+                    'type' => 'Point',
+                    'coordinates' => array(
+                        $row->getLon(),
+                        $row->getLat()
+                    )
+                ),
+                'properties' => array(
+                    'id' => $row->getId(),
+                    'name' => $row->getName(),
+                    'address' => $row->getLocation()
+                )
+            );
+            array_push($geojson['features'], $marker);
+        }
+        return $this->render('office/entries.html.twig', [
+            'entries' => $data,
+            'geojson' => $geojson
+        ]);
+    }
 
 	/**
 	 * @Route("/post", name="post_office")

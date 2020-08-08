@@ -29,7 +29,7 @@ class OfficeController extends AbstractController
             $this->updateOfficeAvailability($office, TRUE);
         }
 
-        return $this->redirectToRoute('my-office-for-renting');
+        return $this->redirectToRoute('my-offices-for-renting');
 
     }
 
@@ -42,7 +42,7 @@ class OfficeController extends AbstractController
             $this->updateOfficeAvailability($office, FALSE);
         }
 
-        return $this->redirectToRoute('my-office-for-renting');
+        return $this->redirectToRoute('my-offices-for-renting');
     }
 
     /**

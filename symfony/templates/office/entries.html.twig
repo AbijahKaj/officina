@@ -1,5 +1,11 @@
 {% extends 'base.html.twig' %}
-{% block title %}Officine - Office Rental{% endblock %}
+{% block title %}Officina - Office Rental{% endblock %}
+{% block stylesheets %}
+    <style>
+
+    </style>
+{% endblock %}
+
 {% block body %}
     <div class="container">
         <div class="offices-header">
@@ -21,11 +27,11 @@
                 {% endfor %}
             </div>
             <div class="col-sm-12 office-main">
-                <div class="list-group">
+                <div class="list-group" id="listing">
                     {% for office in entries %}
-                  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                  <div class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-1">{{ office.name }}</h5>
+                      <h6 class="mb-1 office" id="link-{{ office.id }}">{{ office.name }}</h6>
                       <small>Available</small>
                     </div>
                     <p class="mb-1">{{ office.description }}</p>
@@ -35,7 +41,7 @@
                       {% elseif app.user is null %}
                           <a href="{{ path('order_new', {'id': office.id}) }}" class="btn btn-success">Book</a>
                       {% endif %}
-                  </a>
+                  </div>
                     {% else %}
                         <div>
                             No offices available
@@ -48,49 +54,136 @@
 {% endblock %}
 {% block javascripts %}
       <script>
-        mapboxgl.accessToken = 'pk.eyJ1Ijoia2FydmV6IiwiYSI6ImNrZGtwdGRsajBxd20zMG50c2t1MzRmNGIifQ.zUkJ4rXmsi-h2a4oLJg-Jw';
-        var map = new mapboxgl.Map({
-          container: 'map', // Container ID
-          style: 'mapbox://styles/mapbox/streets-v11', // Map style to use
-          center: [-122.25948, 37.87221], // Starting position [lng, lat]
-          zoom: 12, // Starting zoom level
-        });
-        var geocoder = new MapboxGeocoder({ // Initialize the geocoder
-            accessToken: mapboxgl.accessToken, // Set the access token
-            mapboxgl: mapboxgl, // Set the mapbox-gl instance
-            marker: false, // Do not use the default marker style
-            placeholder: 'Search for offices', // Placeholder text for the search bar
-            //bbox: [-122.30937, 37.84214, -122.23715, 37.89838], // Boundary for Berkeley
-            proximity: {
-              longitude: -122.25948,
-              latitude: 37.87221
-            } // Coordinates of UC Berkeley
-          });
 
-        // Add the geocoder to the map
-        map.addControl(geocoder);
-        var offices = {{ geojson|json_encode|raw }};
-        offices.features.forEach(function(office, i){
-          office.properties.id = i;
-        });
-        //console.log(offices);
+          // This will let you use the .remove() function later on
+          if (!('remove' in Element.prototype)) {
+              Element.prototype.remove = function() {
+                  if (this.parentNode) {
+                      this.parentNode.removeChild(this);
+                  }
+              };
+          }
+
+          mapboxgl.accessToken = 'pk.eyJ1Ijoia2FydmV6IiwiYSI6ImNrZGtwdGRsajBxd20zMG50c2t1MzRmNGIifQ.zUkJ4rXmsi-h2a4oLJg-Jw';
+          var map = new mapboxgl.Map({
+              container: 'map', // Container ID
+              style: 'mapbox://styles/mapbox/streets-v11', // Map style to use
+              center: [-122.25948, 37.87221], // Starting position [lng, lat]
+              zoom: 12, // Starting zoom level
+          });
+          /*var geocoder = new MapboxGeocoder({ // Initialize the geocoder
+              accessToken: mapboxgl.accessToken, // Set the access token
+              mapboxgl: mapboxgl, // Set the mapbox-gl instance
+              marker: false, // Do not use the default marker style
+              placeholder: 'Search for offices', // Placeholder text for the search bar
+              //bbox: [-122.30937, 37.84214, -122.23715, 37.89838], // Boundary for Berkeley
+              proximity: {
+                  longitude: -122.25948,
+                  latitude: 37.87221
+              } // Coordinates of UC Berkeley
+          });*/
+
+          // Add the geocoder to the map
+          //map.addControl(geocoder);
+          var offices = {{ geojson|json_encode|raw }};
+
+          console.log(offices);
+
+
+          /**
+           * Add a marker to the map for every store listing.
+           **/
+          function addMarkers() {
+              /* For each feature in the GeoJSON object above: */
+              offices.features.forEach(function(marker) {
+                  /* Create a div element for the marker. */
+                  var el = document.createElement('div');
+                  /* Assign a unique `id` to the marker. */
+                  el.id = "marker-" + marker.properties.id;
+                  /* Assign the `marker` class to each marker for styling. */
+                  el.className = 'marker';
+
+                  /**
+                   * Create a marker using the div element
+                   * defined above and add it to the map.
+                   **/
+                  new mapboxgl.Marker(el, { offset: [0, -23] })
+                      .setLngLat(marker.geometry.coordinates)
+                      .addTo(map);
+
+                  /**
+                   * Listen to the element and when it is clicked, do three things:
+                   * 1. Fly to the point
+                   * 2. Close all other popups and display popup for clicked store
+                   * 3. Highlight listing in sidebar (and remove highlight for all other listings)
+                   **/
+                  el.addEventListener('click', function(e){
+                      /* Fly to the point */
+                      flyToStore(marker);
+                      /* Close all other popups and display popup for clicked store */
+                      createPopUp(marker);
+                      /* Highlight listing in sidebar */
+                      var activeItem = document.getElementsByClassName('active');
+                      e.stopPropagation();
+                      if (activeItem[0]) {
+                          activeItem[0].classList.remove('active');
+                      }
+                      //var listing = document.getElementById('listing-' + marker.properties.id);
+                      //listing.classList.add('active');
+                  });
+              });
+          }
+
+          /**
+           * Add a listing for each store to the sidebar.
+           **/
+          $(".office").click((e) => {
+              const clickedElement = $(e.target)
+              for (let i = 0; i < offices.features.length; i++) {
+                  if (clickedElement.attr('id') === "link-" + offices.features[i].properties.id) {
+                      let clickedListing = offices.features[i];
+                      flyToStore(clickedListing);
+                      createPopUp(clickedListing);
+                  }else {
+                      console.log(clickedElement.attr('id'))
+                  }
+              }
+              e.preventDefault()
+          })
+          /**
+           * Use Mapbox GL JS's `flyTo` to move the camera smoothly
+           * a given center point.
+           **/
+          function flyToStore(currentFeature) {
+              map.flyTo({
+                  center: currentFeature.geometry.coordinates,
+                  zoom: 15
+              });
+          }
+
+          /**
+           * Create a Mapbox GL JS `Popup`.
+           **/
+          function createPopUp(currentFeature) {
+              var popUps = document.getElementsByClassName('mapboxgl-popup');
+              if (popUps[0]) popUps[0].remove();
+              var popup = new mapboxgl.Popup({closeOnClick: false})
+                  .setLngLat(currentFeature.geometry.coordinates)
+                  .setHTML('<h5>'+currentFeature.properties.name+'</h5>' +
+                      '<h6>' + currentFeature.properties.address + '</h6>')
+                  .addTo(map);
+          }
+
+
         // After the map style has loaded on the page,
         // add a source layer and default styling for a single point
         map.on('load', function() {
-            /* Add the data to your map as a layer */
-            map.addLayer({
-                "id": "locations",
-                "type": "symbol",
-                /* Add a GeoJSON source containing place coordinates and information. */
-                "source": {
-                    "type": "geojson",
-                    "data": offices
-                },
-                "layout": {
-                    "icon-image": "restaurant-15",
-                    "icon-allow-overlap": true,
-                }
-                });
+            map.addSource("places", {
+                "type": "geojson",
+                "data": offices
+            });
+            addMarkers();
         });
+
     </script>
 {% endblock %}

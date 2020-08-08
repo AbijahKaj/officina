@@ -1,3 +1,67 @@
-body {
-    background-color: lightgray;
+
+.a-heading {
+    border-bottom:1px solid #eee;
+    min-height:60px;
+    line-height:60px;
+    padding:0 10px;
+    background-color: #00853e;
+    color: #fff;
+}
+h6.office{
+    cursor: pointer !important;
+}
+.marker {
+    border: none;
+    cursor: pointer;
+    height: 56px;
+    width: 56px;
+    background-image: url(../img/marker.png);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+/* Marker tweaks */
+.mapboxgl-popup {
+    padding-bottom: 50px;
+}
+
+.mapboxgl-popup-close-button {
+    /*display:none;*/
+}
+.mapboxgl-popup-content {
+    /*font:400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;*/
+    padding:0;
+    width:180px;
+}
+.mapboxgl-popup-content-wrapper {
+    padding:1%;
+}
+.mapboxgl-popup-content h5 {
+    background:#91c949;
+    color:#fff;
+    display:block;
+    padding:10px;
+    border-radius:3px 3px 0 0;
+    margin: -15px 0 0;
+}
+
+.mapboxgl-popup-content h6 {
+    margin:0;
+    display:block;
+    padding: 10px 10px 10px 10px;
+}
+
+.mapboxgl-popup-content div {
+    padding:10px;
+}
+
+.mapboxgl-container .leaflet-marker-icon {
+    cursor:pointer;
+}
+
+.mapboxgl-popup-anchor-top > .mapboxgl-popup-content {
+    margin-top: 15px;
+}
+
+.mapboxgl-popup-anchor-top > .mapboxgl-popup-tip {
+    border-bottom-color: #91c949;
 }
