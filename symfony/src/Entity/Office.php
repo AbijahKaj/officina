@@ -57,11 +57,6 @@ class Office
      */
     private $lat;
 
-    /**
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $images = [];
-
 
     public function getId(): ?int
     {
@@ -161,18 +156,6 @@ class Office
     public function setLat(string $lat): self
     {
         $this->lat = $lat;
-
-        return $this;
-    }
-
-    public function getImages(): ?array
-    {
-        return $this->images;
-    }
-
-    public function setImages(?array $images): self
-    {
-        $this->images = $images;
 
         return $this;
     }

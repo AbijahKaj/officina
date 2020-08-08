@@ -40,8 +40,8 @@ class OrderController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
         $order = new Order();
+        $order->setOffice($id);
         $office = $entityManager->getRepository(Office::class)->find($id);
-        $order->setOffice($office);
         $user = $this->getUser();
         $order->setBookedBy($user->getId());
         $form = $this->createForm(OrderType::class, $order, ['validation_groups' => 'new_order']);
