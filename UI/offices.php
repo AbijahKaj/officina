@@ -23,7 +23,13 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
-    </div> 
+    </div>
+
+    <div class="slider-form inner-page-form">
+        <div class="container">
+            <h1 class="text-center mb-5 text-white">Rent an office now</h1>
+        </div>
+    </div>
 </section>
 <!-- End Main Slider With Form -->
 
