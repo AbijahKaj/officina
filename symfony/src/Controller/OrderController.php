@@ -41,10 +41,10 @@ class OrderController extends AbstractController
         $order->setOfficeId($id);
         $user = $this->getUser();
         $order->setBookedBy($user->getId());
-        $form = $this->createForm(OrderType::class, $order);
+        $form = $this->createForm(OrderType::class, $order, ['csrf_protection' => false, 'validation_groups'=>'new_order']);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($order);
             $entityManager->flush();
@@ -111,7 +111,7 @@ class OrderController extends AbstractController
             $this->updateApprovedOrder($order, TRUE);
         }
 
-        return $this->redirectToRoute('my-office-for-renting');
+        return $this->redirectToRoute('my-offices-for-renting');
 
     }
 
@@ -124,7 +124,7 @@ class OrderController extends AbstractController
             $this->updateApprovedOrder($order, FALSE);
         }
 
-        return $this->redirectToRoute('my-office-for-renting');
+        return $this->redirectToRoute('my-offices-for-renting');
     }
 
     /**
