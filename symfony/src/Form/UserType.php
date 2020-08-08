@@ -12,8 +12,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class UserType extends AbstractType {
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+class UserType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
         $builder
             ->add('fullname', TextType::class)
             ->add('phone', TextType::class)
@@ -23,12 +25,12 @@ class UserType extends AbstractType {
                 'first_options' => ['label' => 'Password'],
                 'second_options' => ['label' => 'Confirm Password']
             ])
-            ->add('facebookId', HiddenType::class)
-            ->add('googleId', HiddenType::class)
-        ;
+            ->add('facebook_id', HiddenType::class)
+            ->add('google_id', HiddenType::class);
     }
 
-    public function configureOptions(OptionsResolver $resolver) {
+    public function configureOptions(OptionsResolver $resolver)
+    {
         $resolver->setDefaults([
             'data_class' => User::class,
         ]);

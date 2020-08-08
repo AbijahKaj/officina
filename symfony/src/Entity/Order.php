@@ -65,9 +65,9 @@ class Order
     private $until_date;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="Office")
      */
-    private $office_id;
+    private $office;
 
     public function getId(): ?int
     {
@@ -146,14 +146,14 @@ class Order
         return $this;
     }
 
-    public function getOfficeId(): ?int
+    public function getOffice(): ?Office
     {
-        return $this->office_id;
+        return $this->office;
     }
 
-    public function setOfficeId(int $office_id): self
+    public function setOfficeId(int $office): self
     {
-        $this->office_id = $office_id;
+        $this->office = $office;
 
         return $this;
     }

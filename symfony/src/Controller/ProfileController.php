@@ -10,7 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class ProfileController extends AbstractController {
+class ProfileController extends AbstractController
+{
     /** @var EntityManagerInterface */
     private $entityManager;
 
@@ -21,11 +22,13 @@ class ProfileController extends AbstractController {
 
     /** @var \App\Repository\OfficeRepository */
     private $officeRepository;
+
     /**
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param EntityManagerInterface $entityManager
      */
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager) {
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager)
+    {
         $this->passwordEncoder = $passwordEncoder;
         $this->orderRepository = $entityManager->getRepository('App:Order');
         $this->officeRepository = $entityManager->getRepository('App:Office');
@@ -34,7 +37,8 @@ class ProfileController extends AbstractController {
     /**
      * @Route("/profile", name="profile")
      */
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $user = $this->getUser();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -57,14 +61,15 @@ class ProfileController extends AbstractController {
     /**
      * @Route("/offices-for-renting", name="my-offices-for-renting")
      */
-    public function officesForRenting(Request $request) {
+    public function officesForRenting(Request $request)
+    {
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
 
         return $this->render('profile/offices_for_renting.html.twig', [
             'offices' => $this->officeRepository->findAllByOwner($this->getUser()->getId()),
-            'orders' => $this->orderRepository->findAllByBookedUser($this->getUser()->getId()),
+            'orders' => $this->orderRepository->findAllByOwner($this->getUser()->getId()),
         ]);
     }
 }

@@ -40,7 +40,7 @@ class OrderController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
         $order = new Order();
-        $order->setOfficeId($id);
+        $order->setOffice($id);
         $office = $entityManager->getRepository(Office::class)->find($id);
         $user = $this->getUser();
         $order->setBookedBy($user->getId());
