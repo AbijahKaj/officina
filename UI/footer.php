@@ -22,7 +22,6 @@
 <script src="vendor/select2/js/select2.min.js"></script>
 <!-- Custom -->
 <script src="js/custom.js"></script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-120909275-1"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
 
