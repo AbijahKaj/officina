@@ -24,7 +24,7 @@
                             <div class="card padding-card no-radius border t-align-l h-100">
                                 <div class="card-body">
                                     <h5 class="card-title mb-4">Login</h5>
-                                    <form>
+                                    <form method="post">
                                         {% if error %}
                                             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}
                                             </div>
