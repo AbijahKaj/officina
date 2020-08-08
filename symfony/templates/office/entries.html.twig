@@ -73,33 +73,28 @@
 
         // Add the geocoder to the map
         map.addControl(geocoder);
+        var offices = {{ geojson|json_encode|raw }};
+        offices.features.forEach(function(office, i){
+          office.properties.id = i;
+        });
+        //console.log(offices);
         // After the map style has loaded on the page,
         // add a source layer and default styling for a single point
         map.on('load', function() {
-          map.addSource('single-point', {
-            type: 'geojson',
-            data: {
-              type: 'FeatureCollection',
-              features: []
-            }
-          });
-
-          map.addLayer({
-            id: 'point',
-            source: 'single-point',
-            type: 'circle',
-            paint: {
-              'circle-radius': 10,
-              'circle-color': '#448ee4'
-            }
-          });
-
-          // Listen for the `result` event from the Geocoder
-          // `result` event is triggered when a user makes a selection
-          //  Add a marker at the result's coordinates
-          geocoder.on('result', function(e) {
-            map.getSource('single-point').setData(e.result.geometry);
-          });
+            /* Add the data to your map as a layer */
+            map.addLayer({
+                "id": "locations",
+                "type": "symbol",
+                /* Add a GeoJSON source containing place coordinates and information. */
+                "source": {
+                    "type": "geojson",
+                    "data": offices
+                },
+                "layout": {
+                    "icon-image": "restaurant-15",
+                    "icon-allow-overlap": true,
+                }
+                });
         });
     </script>
 {% endblock %}

@@ -37,8 +37,30 @@ class MainController extends AbstractController {
 	 */
 	public function entriesAction()
 	{
+		$geojson = array( 'type' => 'FeatureCollection', 'features' => array());
+		$data = $this->officePostRepository->findAll();
+		foreach ($data as $row) {
+			
+		  $marker = array(
+		    'type' => 'Feature',
+		    'properties' => array(
+		      'title' => $row->getName(),
+		      'marker-color' => '#f00',
+		      'marker-size' => 'small'
+		    ),
+		    'geometry' => array(
+		      'type' => 'Point',
+		      'coordinates' => array( 
+		        $row->getLat(),
+		        $row->getLon()
+		      )
+		    )
+		  );
+		  array_push($geojson['features'], $marker);
+		}
 	    return $this->render('office/entries.html.twig', [
-	        'entries' => $this->officePostRepository->findAll()
+	        'entries' => $data,
+	        'geojson' => $geojson
 	    ]);
 	}
 
