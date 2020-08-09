@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Office;
+use App\Entity\Order;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,6 +46,7 @@ class OfficeController extends AbstractController
 
         return $this->redirectToRoute('my-offices-for-renting');
     }
+
     /**
      * @Route("/office-delete/{id}", name="office_delete", methods={"POST"})
      */
@@ -79,10 +81,18 @@ class OfficeController extends AbstractController
     public function deleteOffice(Office $office)
     {
         $entityManager = $this->getDoctrine()->getManager();
+        $orderRepository = $entityManager->getRepository(Order::class);
+        $allOrders = $orderRepository->findAllByOffice($office);
+        if ($allOrders) {
+            foreach ($allOrders as $order) {
+                $entityManager->remove($order);
+            }
+        }
+
         $entityManager->remove($office);
-        if($images = $office->getImages()){
+        if ($images = $office->getImages()) {
             foreach ($images as $image)
-                $this->deleteFile($this->getParameter('upload_directory').$image);
+                $this->deleteFile($this->getParameter('upload_directory') . $image);
         }
 
         $entityManager->flush();

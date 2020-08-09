@@ -23,6 +23,19 @@ class OrderRepository extends ServiceEntityRepository
     /**
      * @return Order[] Returns an array of Order objects
      */
+    public function findAllByOffice($office)
+    {
+        return $this->createQueryBuilder('o')
+            ->where("o.office = :val")
+            ->addOrderBy('o.id', 'DESC')
+            ->setParameter('val', $office)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Order[] Returns an array of Order objects
+     */
     public function findAllByOwner($uid)
     {
         return $this->createQueryBuilder('o')
