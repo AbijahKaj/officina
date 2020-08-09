@@ -3,104 +3,106 @@
 {% block title %}My offices{% endblock %}
 
 {% block body %}
-    <h1>My office for renting</h1>
+    <div class="col-10 offset-1">
+        <h1>My office for renting</h1>
 
-    <h2 class="h5 mt-5">My offices</h2>
-    <table class="table table-striped table-sm">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Location</th>
-            <th>Description</th>
-            <th>actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for office in offices %}
+        <h2 class="h5 mt-5">My offices</h2>
+        <table class="table table-striped table-m">
+            <thead>
             <tr>
-                <td>{{ office.id }}</td>
-                <td>{{ office.name }}</td>
-                <td>{{ office.price }}</td>
-                <td>{{ office.location }}</td>
-                <td>{{ office.description }}</td>
-                <td>
-                    {% if office.available %}
-                        <form method="post" action="{{ path('office_disable', {'id': office.id}) }}"
-                              onsubmit="return confirm('Are you sure you want to disable this office?');">
-                            <input type="hidden" name="_token" value="{{ csrf_token('update' ~ office.id) }}">
-                            <button class="btn btn-link pl-0">Disable</button>
-                        </form>
-                    {% else %}
-                        <form method="post" action="{{ path('office_enable', {'id': office.id}) }}"
-                              onsubmit="return confirm('Are you sure you want to enable this office?');">
-                            <input type="hidden" name="_token" value="{{ csrf_token('update' ~ office.id) }}">
-                            <button class="btn btn-link pl-0">Enable</button>
-                        </form>
-                    {% endif %}
-                    <form method="post" action="{{ path('office_delete', {'id': office.id}) }}"
-                          onsubmit="return confirm('Are you sure you want to delete this office?');">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ office.id) }}">
-                        <button class="btn btn-link pl-0">Delete</button>
-                    </form>
-                </td>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Location</th>
+                <th>Description</th>
+                <th>actions</th>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for office in offices %}
+                <tr>
+                    <td>{{ office.id }}</td>
+                    <td>{{ office.name }}</td>
+                    <td>{{ office.price }}</td>
+                    <td>{{ office.location }}</td>
+                    <td>{{ office.description }}</td>
+                    <td>
+                        {% if office.available %}
+                            <form method="post" action="{{ path('office_disable', {'id': office.id}) }}"
+                                  onsubmit="return confirm('Are you sure you want to disable this office?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('update' ~ office.id) }}">
+                                <button class="btn btn-link pl-0">Disable</button>
+                            </form>
+                        {% else %}
+                            <form method="post" action="{{ path('office_enable', {'id': office.id}) }}"
+                                  onsubmit="return confirm('Are you sure you want to enable this office?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('update' ~ office.id) }}">
+                                <button class="btn btn-link pl-0">Enable</button>
+                            </form>
+                        {% endif %}
+                        <form method="post" action="{{ path('office_delete', {'id': office.id}) }}"
+                              onsubmit="return confirm('Are you sure you want to delete this office?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ office.id) }}">
+                            <button class="btn btn-link pl-0">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <h2 class="h5 mt-5">My ordered offices</h2>
-    <table class="table table-striped table-sm">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Office</th>
-            <th>Price</th>
-            <th>From</th>
-            <th>Until</th>
-            <th>Remarks</th>
-            <th>actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for order in orders %}
+        <h2 class="h5 mt-5">My ordered offices</h2>
+        <table class="table table-striped table-sm">
+            <thead>
             <tr>
-                <td>{{ order.id }}</td>
-                <td>{{ order.office ? order.office.id : '' }}</td>
-                <td>{{ order.price }}</td>
-                <td>{{ order.fromDate ? order.fromDate|date('Y-m-d') : '' }}</td>
-                <td>{{ order.untilDate ? order.untilDate|date('Y-m-d') : '' }}</td>
-                <td>{{ order.remarks }}</td>
-                <td>
-                    {% if order.approved  == '0' %}
-                        <span class="badge badge-pill badge-danger">Rejected</span>
-                    {% elseif order.approved  == '1' %}
-                        <span class="badge badge-pill badge-success">Approved</span>
-                    {% else %}
-                        <form method="post" action="{{ path('order_approve', {'id': order.id}) }}"
-                              onsubmit="return confirm('Are you sure you want to approve this order?');">
-                            <input type="hidden" name="_token" value="{{ csrf_token('update' ~ order.id) }}">
-                            <button class="btn btn-link btn-sm pl-0">Approve</button>
-                        </form>
-                        <form method="post" action="{{ path('order_reject', {'id': order.id}) }}"
-                              onsubmit="return confirm('Are you sure you want to reject this order?');">
-                            <input type="hidden" name="_token" value="{{ csrf_token('update' ~ order.id) }}">
-                            <button class="btn btn-link btn-sm pl-0">Reject</button>
-                        </form>
-                    {% endif %}
-                </td>
+                <th>Id</th>
+                <th>Office</th>
+                <th>Price</th>
+                <th>From</th>
+                <th>Until</th>
+                <th>Remarks</th>
+                <th>actions</th>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.office ? order.office.id : '' }}</td>
+                    <td>{{ order.price }}</td>
+                    <td>{{ order.fromDate ? order.fromDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ order.untilDate ? order.untilDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ order.remarks }}</td>
+                    <td>
+                        {% if order.approved  == '0' %}
+                            <span class="badge badge-pill badge-danger">Rejected</span>
+                        {% elseif order.approved  == '1' %}
+                            <span class="badge badge-pill badge-success">Approved</span>
+                        {% else %}
+                            <form method="post" action="{{ path('order_approve', {'id': order.id}) }}"
+                                  onsubmit="return confirm('Are you sure you want to approve this order?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('update' ~ order.id) }}">
+                                <button class="btn btn-link btn-sm pl-0">Approve</button>
+                            </form>
+                            <form method="post" action="{{ path('order_reject', {'id': order.id}) }}"
+                                  onsubmit="return confirm('Are you sure you want to reject this order?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('update' ~ order.id) }}">
+                                <button class="btn btn-link btn-sm pl-0">Reject</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}
