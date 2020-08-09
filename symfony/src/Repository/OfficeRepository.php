@@ -32,6 +32,18 @@ class OfficeRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllMatching(string $query, int $limit = 5)
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.location LIKE :query')
+            ->orWhere('o.name LIKE :query')
+            ->addOrderBy('o.price', 'DESC')
+            ->setParameter('query', '%'.$query.'%')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Office[] Returns an array of Office objects
     //  */

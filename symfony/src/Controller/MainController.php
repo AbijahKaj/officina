@@ -10,7 +10,7 @@ use App\Entity\Office;
 use App\Form\OfficeFormType;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class MainController extends AbstractController {
 	/** @var EntityManagerInterface */
@@ -128,5 +128,29 @@ class MainController extends AbstractController {
 	        'form' => $form->createView()
 	    ]);
 	}
+    /**
+     * @Route("/search-auto", name="search_auto")
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function searchAutocomplete(Request $request)
+    {
+        $term = $request->request->get('query');
 
+        $array = $this->officePostRepository->findAllMatching($term);
+        $data =  array();
+        foreach ($array as $row) {
+            $_office = array(
+                'id' => $row->getId(),
+                'name' => $row->getName(),
+                'address' => $row->getLocation(),
+                'price' => $row->getPrice()
+            );
+
+            $data[] = $_office;
+        }
+        return new JsonResponse($data);
+    }
 }

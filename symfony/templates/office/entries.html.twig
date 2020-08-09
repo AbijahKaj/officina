@@ -9,6 +9,9 @@
             -webkit-overflow-scrolling: touch;
             overflow-x: hidden;
         }
+        .suggestions{
+            z-index: 1000;
+        }
     </style>
 {% endblock %}
 
@@ -45,7 +48,7 @@
             <div class="container">
                 <h2 class="text-left mb-1 text-white d-none d-sm-block">Find An Awesome Office</h2>
                 <p class="text-white mb-5 d-none d-sm-block">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard <br />dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                <form>
+                <form id="search-form">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">For Rent</a>
@@ -57,7 +60,7 @@
                                 <div class="col-sm-6">
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="mdi mdi-map-marker-multiple"></i></div>
-                                        <input class="form-control" placeholder="Enter Location or Landmark" type="text">
+                                        <input class="form-control" id="search-input" placeholder="Enter Location or Landmark" type="text">
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
@@ -82,6 +85,7 @@
                                     <button type="submit" class="btn btn-secondary btn-block no-radius font-weight-bold">SEARCH</button>
                                 </div>
                             </div>
+                            <div class="suggestions"></div>
                         </div>
                     </div>
                 </form>
@@ -373,138 +377,150 @@
     </section>
     <!-- End Properties by City -->
 {% endblock %}
-        {% block javascripts %}
-            <script>
+{% block javascripts %}
+    <script>
 
-                // This will let you use the .remove() function later on
-                if (!('remove' in Element.prototype)) {
-                    Element.prototype.remove = function() {
-                        if (this.parentNode) {
-                            this.parentNode.removeChild(this);
-                        }
-                    };
+        // This will let you use the .remove() function later on
+        if (!('remove' in Element.prototype)) {
+            Element.prototype.remove = function() {
+                if (this.parentNode) {
+                    this.parentNode.removeChild(this);
                 }
+            };
+        }
 
-                mapboxgl.accessToken = 'pk.eyJ1Ijoia2FydmV6IiwiYSI6ImNrZGtwdGRsajBxd20zMG50c2t1MzRmNGIifQ.zUkJ4rXmsi-h2a4oLJg-Jw';
-                var map = new mapboxgl.Map({
-                    container: 'map', // Container ID
-                    style: 'mapbox://styles/mapbox/streets-v11', // Map style to use
-                    center: [-122.25948, 37.87221], // Starting position [lng, lat]
-                    zoom: 12, // Starting zoom level
-                });
-                /*var geocoder = new MapboxGeocoder({ // Initialize the geocoder
-                    accessToken: mapboxgl.accessToken, // Set the access token
-                    mapboxgl: mapboxgl, // Set the mapbox-gl instance
-                    marker: false, // Do not use the default marker style
-                    placeholder: 'Search for offices', // Placeholder text for the search bar
-                    //bbox: [-122.30937, 37.84214, -122.23715, 37.89838], // Boundary for Berkeley
-                    proximity: {
-                        longitude: -122.25948,
-                        latitude: 37.87221
-                    } // Coordinates of UC Berkeley
-                });*/
+        mapboxgl.accessToken = 'pk.eyJ1Ijoia2FydmV6IiwiYSI6ImNrZGtwdGRsajBxd20zMG50c2t1MzRmNGIifQ.zUkJ4rXmsi-h2a4oLJg-Jw';
+        let map = new mapboxgl.Map({
+            container: 'map', // Container ID
+            style: 'mapbox://styles/mapbox/streets-v11', // Map style to use
+            center: [-122.25948, 37.87221], // Starting position [lng, lat]
+            zoom: 12, // Starting zoom level
+        });
 
-                // Add the geocoder to the map
-                //map.addControl(geocoder);
-                var offices = {{ geojson|json_encode|raw }};
+        let offices = {{ geojson|json_encode|raw }};
 
-                console.log(offices);
 
+        /**
+         * Add a marker to the map for every store listing.
+         **/
+        function addMarkers() {
+            /* For each feature in the GeoJSON object above: */
+            offices.features.forEach(function(marker) {
+                /* Create a div element for the marker. */
+                let el = document.createElement('div');
+                /* Assign a unique `id` to the marker. */
+                el.id = "marker-" + marker.properties.id;
+                /* Assign the `marker` class to each marker for styling. */
+                el.className = 'marker';
 
                 /**
-                 * Add a marker to the map for every store listing.
+                 * Create a marker using the div element
+                 * defined above and add it to the map.
                  **/
-                function addMarkers() {
-                    /* For each feature in the GeoJSON object above: */
-                    offices.features.forEach(function(marker) {
-                        /* Create a div element for the marker. */
-                        var el = document.createElement('div');
-                        /* Assign a unique `id` to the marker. */
-                        el.id = "marker-" + marker.properties.id;
-                        /* Assign the `marker` class to each marker for styling. */
-                        el.className = 'marker';
-
-                        /**
-                         * Create a marker using the div element
-                         * defined above and add it to the map.
-                         **/
-                        new mapboxgl.Marker(el, { offset: [0, -23] })
-                            .setLngLat(marker.geometry.coordinates)
-                            .addTo(map);
-
-                        /**
-                         * Listen to the element and when it is clicked, do three things:
-                         * 1. Fly to the point
-                         * 2. Close all other popups and display popup for clicked store
-                         * 3. Highlight listing in sidebar (and remove highlight for all other listings)
-                         **/
-                        el.addEventListener('click', function(e){
-                            /* Fly to the point */
-                            flyToStore(marker);
-                            /* Close all other popups and display popup for clicked store */
-                            createPopUp(marker);
-                            /* Highlight listing in sidebar */
-                            var activeItem = document.getElementsByClassName('active');
-                            e.stopPropagation();
-                            if (activeItem[0]) {
-                                activeItem[0].classList.remove('active');
-                            }
-                            //var listing = document.getElementById('listing-' + marker.properties.id);
-                            //listing.classList.add('active');
-                        });
-                    });
-                }
+                new mapboxgl.Marker(el, { offset: [0, -23] })
+                    .setLngLat(marker.geometry.coordinates)
+                    .addTo(map);
 
                 /**
-                 * Add a listing for each store to the sidebar.
+                 * Listen to the element and when it is clicked, do three things:
+                 * 1. Fly to the point
+                 * 2. Close all other popups and display popup for clicked store
+                 * 3. Highlight listing in sidebar (and remove highlight for all other listings)
                  **/
-                $(".office").click((e) => {
-                    const clickedElement = $(e.target)
-                    for (let i = 0; i < offices.features.length; i++) {
-                        if (clickedElement.attr('id') === "link-" + offices.features[i].properties.id) {
-                            let clickedListing = offices.features[i];
-                            flyToStore(clickedListing);
-                            createPopUp(clickedListing);
-                        }else {
-                            console.log(clickedElement.attr('id'))
-                        }
+                el.addEventListener('click', function(e){
+                    /* Fly to the point */
+                    flyToStore(marker);
+                    /* Close all other popups and display popup for clicked store */
+                    createPopUp(marker);
+                    /* Highlight listing in sidebar */
+                    let activeItem = document.getElementsByClassName('active');
+                    e.stopPropagation();
+                    if (activeItem[0]) {
+                        activeItem[0].classList.remove('active');
                     }
-                    e.preventDefault()
-                })
-                /**
-                 * Use Mapbox GL JS's `flyTo` to move the camera smoothly
-                 * a given center point.
-                 **/
-                function flyToStore(currentFeature) {
-                    map.flyTo({
-                        center: currentFeature.geometry.coordinates,
-                        zoom: 15
-                    });
-                }
-
-                /**
-                 * Create a Mapbox GL JS `Popup`.
-                 **/
-                function createPopUp(currentFeature) {
-                    var popUps = document.getElementsByClassName('mapboxgl-popup');
-                    if (popUps[0]) popUps[0].remove();
-                    var popup = new mapboxgl.Popup({closeOnClick: false})
-                        .setLngLat(currentFeature.geometry.coordinates)
-                        .setHTML('<h5>'+currentFeature.properties.name+'</h5>' +
-                            '<h6>' + currentFeature.properties.address + '</h6>')
-                        .addTo(map);
-                }
-
-
-                // After the map style has loaded on the page,
-                // add a source layer and default styling for a single point
-                map.on('load', function() {
-                    map.addSource("places", {
-                        "type": "geojson",
-                        "data": offices
-                    });
-                    addMarkers();
+                    //var listing = document.getElementById('listing-' + marker.properties.id);
+                    //listing.classList.add('active');
                 });
+            });
+        }
 
-            </script>
-        {% endblock %}
+        /**
+         * Add a listing for each store to the sidebar.
+         **/
+        $(".office").click((e) => {
+            const clickedElement = $(e.target)
+            for (let i = 0; i < offices.features.length; i++) {
+                if (clickedElement.attr('id') === "link-" + offices.features[i].properties.id) {
+                    let clickedListing = offices.features[i];
+                    flyToStore(clickedListing);
+                    createPopUp(clickedListing);
+                }
+            }
+            e.preventDefault()
+        })
+        /**
+         * Use Mapbox GL JS's `flyTo` to move the camera smoothly
+         * a given center point.
+         **/
+        function flyToStore(currentFeature) {
+            map.flyTo({
+                center: currentFeature.geometry.coordinates,
+                zoom: 15
+            });
+        }
+
+        /**
+         * Create a Mapbox GL JS `Popup`.
+         **/
+        function createPopUp(currentFeature) {
+            let popUps = document.getElementsByClassName('mapboxgl-popup');
+            if (popUps[0]) popUps[0].remove();
+            let popup = new mapboxgl.Popup({closeOnClick: false})
+                .setLngLat(currentFeature.geometry.coordinates)
+                .setHTML('<h5>'+currentFeature.properties.name+'</h5>' +
+                    '<h6>' + currentFeature.properties.address + '</h6>')
+                .addTo(map);
+        }
+
+
+        // After the map style has loaded on the page,
+        // add a source layer and default styling for a single point
+        map.on('load', function() {
+            map.addSource("places", {
+                "type": "geojson",
+                "data": offices
+            });
+            addMarkers();
+        });
+        $('#search-input').keyup((e) => {
+            let query = $('#search-input').val();
+            $('.suggestions').text("");
+                $.ajax({
+                    type:"POST",
+                    url : "{{ path('search_auto') }}",
+                    dataType : 'json',
+                    data : {query: query},
+                    beforeSend: function(){
+                        $("#search-input").css("background","#FFF url(img/LoaderIcon.gif) no-repeat 165px");
+                    }
+                }).done(function (data) {
+                    $("#search-input").css("background","#FFF");
+                    let template = "";
+                    data.forEach((office)=>{
+                        template += '<div class="list-group-item" id="office-'+office.id+'">' +
+                            '<div class="d-flex w-100 justify-content-between">\n' +
+                            '      <h5 class="mb-1">'+office.name+'</h5>\n' +
+                            '      <small>'+office.price+'</small>\n' +
+                            '    </div>\n' +
+                            '    <p class="mb-1">'+office.address+'</p>\n' +
+                            '</div>';
+                    })
+                    $('.suggestions').html(template);
+                    //done({suggestions: data});
+                });
+        });
+        $("#search-input").focusout((e)=>{
+            $('.suggestions').text("");
+        })
+    </script>
+{% endblock %}
