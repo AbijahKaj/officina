@@ -32,7 +32,6 @@ class OfficeController extends AbstractController
         }
 
         return $this->redirectToRoute('my-offices-for-renting');
-
     }
 
     /**
@@ -60,10 +59,10 @@ class OfficeController extends AbstractController
 
     /**
      * Update approved status of an order.
+     *
      * @param Office $office
      * @param $availability bool
      */
-
     public function updateOfficeAvailability(Office $office, $availability)
     {
         $office->setAvailable($availability);
@@ -71,6 +70,12 @@ class OfficeController extends AbstractController
         $entityManager->persist($office);
         $entityManager->flush();
     }
+
+    /**
+     * Delete an office.
+     *
+     * @param Office $office
+     */
     public function deleteOffice(Office $office)
     {
         $entityManager = $this->getDoctrine()->getManager();
@@ -82,6 +87,12 @@ class OfficeController extends AbstractController
 
         $entityManager->flush();
     }
+
+    /**
+     * Delete a file from the system.
+     *
+     * @param string $filename
+     */
     public function deleteFile(string $filename)
     {
         $filesystem = new Filesystem();

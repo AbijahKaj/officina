@@ -15,9 +15,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use HWI\Bundle\OAuthBundle\Security\Core\Exception\AccountNotLinkedException;
 
-class RegistrationController extends AbstractController {
+class RegistrationController extends AbstractController
+{
+    /** @var UserPasswordEncoderInterface */
     private $passwordEncoder;
 
+    /** @var SessionInterface */
     private $session;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder, SessionInterface $session) {
@@ -112,10 +115,7 @@ class RegistrationController extends AbstractController {
             throw new \RuntimeException('Cannot register an account.', 0, $error instanceof \Exception ? $error : null);
         }
 
-        $setter = 'set'.ucfirst($error->getResourceOwnerName()).'Id';
-
         $user = new User();
-
         $user->setEmail($this->session->get('emailFromResource'));
         $user->setFullname($this->session->get('usernameFromResource'));
 

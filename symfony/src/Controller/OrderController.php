@@ -132,6 +132,9 @@ class OrderController extends AbstractController
 
     /**
      * Update approved status of an order.
+     *
+     * @param Order $order
+     * @param $approved
      */
     public function updateApprovedOrder(Order $order, $approved)
     {
