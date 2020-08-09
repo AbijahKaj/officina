@@ -86,7 +86,7 @@ class MainController extends AbstractController
             $_office = array(
                 'id' => $row->getId(),
                 'name' => $row->getName(),
-                'image' => $row->getImages()[0],
+                'image' => $row->getImages() ? $row->getImages()[0] : '',
                 'address' => $row->getLocation(),
                 'user' => $row->getUser(),
                 'image_count' => count($row->getImages()),
