@@ -2,7 +2,10 @@
 {% block title %}Officina - Office Rental{% endblock %}
 {% block stylesheets %}
     <style>
-
+        .view-offices-section{
+            overflow: auto;
+            max-height: 450px;
+        }
     </style>
 {% endblock %}
 
@@ -181,7 +184,7 @@
         <div class="row">
             <div id='map' class="col-6">
             </div>
-            <div class="col-6">
+            <div class="col-6 view-offices-section">
                 <div class="col-md-12 col-lg-12 col-xl-12">
                     {% for label, messages in app.flashes %}
                         {% for message in messages %}
