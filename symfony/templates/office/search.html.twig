@@ -1,0 +1,287 @@
+{% extends 'base.html.twig' %}
+{% block title %}Officina - Office Rental{% endblock %}
+{% block stylesheets %}
+    <style>
+        .nearby-list{
+            max-height: 450px;
+            margin-bottom: 10px;
+            overflow:scroll;
+            -webkit-overflow-scrolling: touch;
+            overflow-x: hidden;
+        }
+        .suggestions{
+            z-index: 1000;
+        }
+        #search-result{
+            position: relative;
+            left: 0;
+            right: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <!-- Main Slider With Form -->
+    <section class="section-padding bg-info">
+        <div class="container">
+            <div class="slider-form" id="search-result">
+                <div class="container">
+                    <h2 class="text-left mb-1 text-white d-none d-sm-block">Search results <small>({{ count }})</small></h2>
+                    <form id="search-form">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">For Rent</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <div class="row no-gutters">
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="mdi mdi-map-marker-multiple"></i></div>
+                                            <input class="form-control" id="search-input" value="{{ query }}" placeholder="Enter Location or Landmark" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="mdi mdi-google-maps"></i></div>
+                                            <select class="form-control select2 no-radius">
+                                                <option value="">Price range</option>
+                                                <option value="HI">Hawaii</option>
+                                                <option value="ID">Idaho</option>
+                                                <option value="IL">Illinois</option>
+                                                <option value="IN">Indiana</option>
+                                                <option value="IA">Iowa</option>
+                                                <option value="KS">Kansas</option>
+                                                <option value="KY">Kentucky</option>
+                                                <option value="LA">Louisiana</option>
+                                                <option value="ME">Maine</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <button type="submit" class="btn btn-secondary btn-block no-radius font-weight-bold">SEARCH</button>
+                                    </div>
+                                </div>
+                                <div class="suggestions"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="search-result">
+                {% for office in entries %}
+                {% else %}
+                    <div>
+                        No offices available
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </section>
+    <!-- End Main Slider With Form -->
+
+    <section class="section-padding" id="nearby">
+        <div class="section-title text-center mb-5">
+            <h2>Map view</h2>
+            <div class="line mb-2"></div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div id='map' class="col-6">
+                </div>
+                <div class="col-6">
+                    <div class="col-md-12 col-lg-12 col-xl-12">
+                        {% for label, messages in app.flashes %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ label }}" role="alert">
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                    <div class="col-sm-12 office-main">
+                        <div class="list-group nearby-list" id="listing">
+                            {% for office in entries %}
+                                <div class="list-group-item list-group-item-action flex-column align-items-start">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1 office" id="link-{{ office.id }}">{{ office.name }}</h6>
+                                        <small>Available</small>
+                                    </div>
+                                    <p class="mb-1">{{ office.description }}</p>
+                                    {% if office.price %}
+                                        <p class="text-primary mb-1 font-weight-bold">${{ office.price }}</p>
+                                    {% endif %}
+                                    <small>{{ office.location }}</small>
+                                    {% if (app.user is not null and office.user != app.user.id) or app.user is null %}
+                                        <a href="{{ path('order_new', {'id': office.id}) }}" class="btn btn-success float-right">Book</a>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <div>
+                                    No offices available
+                                </div>
+
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+
+        // This will let you use the .remove() function later on
+        if (!('remove' in Element.prototype)) {
+            Element.prototype.remove = function() {
+                if (this.parentNode) {
+                    this.parentNode.removeChild(this);
+                }
+            };
+        }
+
+        mapboxgl.accessToken = 'pk.eyJ1Ijoia2FydmV6IiwiYSI6ImNrZGtwdGRsajBxd20zMG50c2t1MzRmNGIifQ.zUkJ4rXmsi-h2a4oLJg-Jw';
+        let map = new mapboxgl.Map({
+            container: 'map', // Container ID
+            style: 'mapbox://styles/mapbox/streets-v11', // Map style to use
+            center: [-122.25948, 37.87221], // Starting position [lng, lat]
+            zoom: 12, // Starting zoom level
+        });
+
+        let offices = {{ geojson|json_encode|raw }};
+
+
+        /**
+         * Add a marker to the map for every store listing.
+         **/
+        function addMarkers() {
+            /* For each feature in the GeoJSON object above: */
+            offices.features.forEach(function(marker) {
+                /* Create a div element for the marker. */
+                let el = document.createElement('div');
+                /* Assign a unique `id` to the marker. */
+                el.id = "marker-" + marker.properties.id;
+                /* Assign the `marker` class to each marker for styling. */
+                el.className = 'marker';
+
+                /**
+                 * Create a marker using the div element
+                 * defined above and add it to the map.
+                 **/
+                new mapboxgl.Marker(el, { offset: [0, -23] })
+                    .setLngLat(marker.geometry.coordinates)
+                    .addTo(map);
+
+                /**
+                 * Listen to the element and when it is clicked, do three things:
+                 * 1. Fly to the point
+                 * 2. Close all other popups and display popup for clicked store
+                 * 3. Highlight listing in sidebar (and remove highlight for all other listings)
+                 **/
+                el.addEventListener('click', function(e){
+                    /* Fly to the point */
+                    flyToStore(marker);
+                    /* Close all other popups and display popup for clicked store */
+                    createPopUp(marker);
+                    /* Highlight listing in sidebar */
+                    let activeItem = document.getElementsByClassName('active');
+                    e.stopPropagation();
+                    if (activeItem[0]) {
+                        activeItem[0].classList.remove('active');
+                    }
+                    //var listing = document.getElementById('listing-' + marker.properties.id);
+                    //listing.classList.add('active');
+                });
+            });
+        }
+
+        /**
+         * Add a listing for each store to the sidebar.
+         **/
+        $(".office").click((e) => {
+            const clickedElement = $(e.target)
+            for (let i = 0; i < offices.features.length; i++) {
+                if (clickedElement.attr('id') === "link-" + offices.features[i].properties.id) {
+                    let clickedListing = offices.features[i];
+                    flyToStore(clickedListing);
+                    createPopUp(clickedListing);
+                }
+            }
+            e.preventDefault()
+        })
+        /**
+         * Use Mapbox GL JS's `flyTo` to move the camera smoothly
+         * a given center point.
+         **/
+        function flyToStore(currentFeature) {
+            map.flyTo({
+                center: currentFeature.geometry.coordinates,
+                zoom: 15
+            });
+        }
+
+        /**
+         * Create a Mapbox GL JS `Popup`.
+         **/
+        function createPopUp(currentFeature) {
+            let popUps = document.getElementsByClassName('mapboxgl-popup');
+            if (popUps[0]) popUps[0].remove();
+            let popup = new mapboxgl.Popup({closeOnClick: false})
+                .setLngLat(currentFeature.geometry.coordinates)
+                .setHTML('<h5>'+currentFeature.properties.name+'</h5>' +
+                    '<h6>' + currentFeature.properties.address + '</h6>')
+                .addTo(map);
+        }
+
+
+        // After the map style has loaded on the page,
+        // add a source layer and default styling for a single point
+        map.on('load', function() {
+            map.addSource("places", {
+                "type": "geojson",
+                "data": offices
+            });
+            addMarkers();
+        });
+        $('#search-input').keyup((e) => {
+            let query = $('#search-input').val();
+            $('.suggestions').text("");
+                $.ajax({
+                    type:"POST",
+                    url : "{{ path('search_auto') }}",
+                    dataType : 'json',
+                    data : {query: query},
+                    beforeSend: function(){
+                        $("#search-input").css("background","#FFF url(img/LoaderIcon.gif) no-repeat 165px");
+                    }
+                }).done(function (data) {
+                    $("#search-input").css("background","#FFF");
+                    let template = "";
+                    data.forEach((office)=>{
+                        template += '<div class="list-group-item" id="office-'+office.id+'">' +
+                            '<div class="d-flex w-100 justify-content-between">\n' +
+                            '      <h5 class="mb-1">'+office.name+'</h5>\n' +
+                            '      <small>$'+office.price+'</small>\n' +
+                            '    </div>\n' +
+                            '    <p class="mb-1">'+office.address+'</p>\n' +
+                            '</div>';
+                    })
+                    $('.suggestions').html(template);
+                    //done({suggestions: data});
+                });
+        });
+        $("#search-input").focusout((e)=>{
+            $('.suggestions').text("");
+        })
+    </script>
+{% endblock %}

@@ -38,10 +38,26 @@ class MainController extends AbstractController
 	 */
     public function entriesAction()
     {
-        $geojson = array( 'type' => 'FeatureCollection', 'features' => array());
+        $cities = ['California' => count($this->officePostRepository->findAllMatching('California')),
+            'Philadelphia' => count($this->officePostRepository->findAllMatching('Philadelphia')),
+            'Chicago' => count($this->officePostRepository->findAllMatching('Chicago')),
+            'LA' => count($this->officePostRepository->findAllMatching('Los Angeles')),
+            'NYC' => count($this->officePostRepository->findAllMatching('New York'))
+        ];
+
         $data = $this->officePostRepository->findBy([
                 'available' => true
         ]);
+
+        return $this->render('office/entries.html.twig', [
+            'entries' => $data,
+            'geojson' => $this->getGeoJSON($data),
+            'latest' => $this->getLatestOffices(),
+            'cities' => $cities
+        ]);
+    }
+    public function getGeoJSON($data){
+        $geojson = array( 'type' => 'FeatureCollection', 'features' => array());
         foreach ($data as $row) {
 
             $marker = array(
@@ -61,11 +77,7 @@ class MainController extends AbstractController
             );
             array_push($geojson['features'], $marker);
         }
-        return $this->render('office/entries.html.twig', [
-            'entries' => $data,
-            'geojson' => $geojson,
-            'latest' => $this->getLatestOffices()
-        ]);
+        return $geojson;
     }
     public function getLatestOffices(){
         $array = $this->officePostRepository->getLatest();
@@ -85,6 +97,34 @@ class MainController extends AbstractController
             $data[] = $_office;
         }
         return $data;
+    }
+
+    /**
+     * @Route("/search/{query}", name="search")
+     * @param string $query
+     */
+    public function search(string $query){
+
+        $offices = $this->officePostRepository->findAllMatching($query);
+        $data =  array();
+        foreach ($offices as $row) {
+            $_office = array(
+                'id' => $row->getId(),
+                'name' => $row->getName(),
+                'address' => $row->getLocation(),
+                'price' => $row->getPrice()
+            );
+
+            $data[] = $_office;
+        }
+        //$result = array('count' => count($data));
+        return $this->render('office/search.html.twig', [
+            'entries' => $offices,
+            'latest' => $this->getLatestOffices(),
+            'geojson' => $this->getGeoJSON($offices),
+            'count' => count($offices),
+            'query' => $query
+        ]);
     }
 	/**
 	 * @Route("/post", name="post_office")

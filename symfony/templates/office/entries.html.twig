@@ -203,33 +203,33 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4">
                     <div class="card bg-dark text-white card-overlay">
-                        <a href="#">
+                        <a href="{{ path('search', {'query': 'California'}) }}">
                             <img class="card-img" src="{{ asset('img/overlay/1.png') }}" alt="Card image">
                             <div class="card-img-overlay">
                                 <h3 class="card-title text-white">California</h3>
-                                <p class="card-text text-white">16 Properties</p>
+                                <p class="card-text text-white">{{ cities.California }} Offices</p>
                             </div>
                         </a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <div class="card bg-dark text-white card-overlay">
-                        <a href="#">
+                        <a href="{{ path('search', {'query': 'New York'}) }}">
                             <img class="card-img" src="{{ asset('img/overlay/2.png') }}" alt="Card image">
                             <div class="card-img-overlay">
                                 <h3 class="card-title text-white">New York</h3>
-                                <p class="card-text text-white">16 Properties</p>
+                                <p class="card-text text-white">{{ cities.NYC }} Offices</p>
                             </div>
                         </a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <div class="card bg-dark text-white card-overlay">
-                        <a href="#">
+                        <a href="{{ path('search', {'query': 'Los Angeles'}) }}">
                             <img class="card-img" src="{{ asset('img/overlay/3.png') }}" alt="Card image">
                             <div class="card-img-overlay">
                                 <h3 class="card-title text-white">Los Angeles</h3>
-                                <p class="card-text text-white">265 Properties</p>
+                                <p class="card-text text-white">{{ cities.LA }} Offices</p>
                             </div>
                         </a>
                     </div>
@@ -238,11 +238,11 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6">
                     <div class="card bg-dark text-white card-overlay">
-                        <a href="#">
+                        <a href="{{ path('search', {'query': 'Chicago'}) }}">
                             <img class="card-img" src="{{ asset('img/overlay/4.png') }}" alt="Card image">
                             <div class="card-img-overlay">
                                 <h3 class="card-title text-white">Chicago</h3>
-                                <p class="card-text text-white">620 Properties</p>
+                                <p class="card-text text-white">{{ cities.Chicago }} Offices</p>
                             </div>
                         </a>
                         .
@@ -250,11 +250,11 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="card bg-dark text-white card-overlay">
-                        <a href="#">
-                            <img class="card-img" src="img/overlay/5.png" alt="Card image">
+                        <a href="{{ path('search', {'query': 'Philadelphia'}) }}">
+                            <img class="card-img" src="{{ asset('img/overlay/5.png') }}" alt="Card image">
                             <div class="card-img-overlay">
                                 <h3 class="card-title text-white">Philadelphia</h3>
-                                <p class="card-text text-white">28 Properties</p>
+                                <p class="card-text text-white">{{ cities.Philadelphia }} Offices</p>
                             </div>
                         </a>
                     </div>
