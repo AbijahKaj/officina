@@ -110,13 +110,14 @@ class MainController extends AbstractController
 
 
     /**
-     *
-     * @Route("/search/{query}", name="search"))
+     * @Route("/search/", name="search")
+     * @Route("/search/{query}", name="search")
+     * @param Request $request
      * @param string $query
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function search(string $query){
-
+    public function search(Request $request, string $query = ""){
+        if(empty($query)) $query = $request->get('query');
         $offices = $this->officePostRepository->findAllMatching($query);
         $data =  array();
         foreach ($offices as $row) {

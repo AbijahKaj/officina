@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block title %}Officina - Office Rental{% endblock %}
 {% block stylesheets %}
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css" type="text/css"/>
     <style>
         .nearby-list{
             max-height: 450px;
@@ -139,6 +140,9 @@
 
 {% endblock %}
 {% block javascripts %}
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+    <script src="https://unpkg.com/es6-promise@4.2.4/dist/es6-promise.auto.min.js"></script>
+    <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
     <script>
 
         // This will let you use the .remove() function later on
@@ -157,7 +161,33 @@
             center: [-122.25948, 37.87221], // Starting position [lng, lat]
             zoom: 12, // Starting zoom level
         });
+        var geocoder = new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            marker: false,
+            mapboxgl: mapboxgl
+        });
 
+        map.addControl(geocoder);
+        var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
+        mapboxClient.geocoding
+            .forwardGeocode({
+                query: '{{ query }}',
+                autocomplete: false,
+                limit: 1
+            })
+            .send()
+            .then(function(response) {
+                if (
+                    response &&
+                    response.body &&
+                    response.body.features &&
+                    response.body.features.length
+                ) {
+                    var feature = response.body.features[0];
+                    map.setCenter(feature.center);
+                    map.setZoom(8);
+                }
+            });
         let offices = {{ geojson|json_encode|raw }};
 
 

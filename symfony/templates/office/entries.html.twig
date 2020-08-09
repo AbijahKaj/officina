@@ -48,7 +48,7 @@
             <div class="container">
                 <h2 class="text-left mb-1 text-white d-none d-sm-block">Find An Awesome Office</h2>
                 <p class="text-white mb-5 d-none d-sm-block">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard <br />dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                <form id="search-form">
+                <form id="search-form" action="{{ path('search') }}">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">For Rent</a>
@@ -60,7 +60,7 @@
                                 <div class="col-sm-6">
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="mdi mdi-map-marker-multiple"></i></div>
-                                        <input class="form-control" id="search-input" placeholder="Enter Location or Landmark" type="text">
+                                        <input class="form-control" name="query" id="search-input" placeholder="Enter Location or Landmark" type="text">
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
