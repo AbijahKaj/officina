@@ -100,8 +100,20 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/search/{query}", name="search")
+     *
+     * @Route("/search", name="search_", methods={"GET"})
+     *
+     */
+    public function redirectFromSearch(){
+        return $this->redirectToRoute('homepage');
+    }
+
+
+    /**
+     *
+     * @Route("/search/{query}", name="search"))
      * @param string $query
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function search(string $query){
 
