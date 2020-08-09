@@ -124,6 +124,9 @@
                                         <small>Available</small>
                                     </div>
                                     <p class="mb-1">{{ office.description }}</p>
+                                    {% if office.price %}
+                                        <p class="text-primary mb-1 font-weight-bold">${{ office.price }}</p>
+                                    {% endif %}
                                     <small>{{ office.location }}</small>
                                     {% if (app.user is not null and office.user != app.user.id) or app.user is null %}
                                         <a href="{{ path('order_new', {'id': office.id}) }}" class="btn btn-success float-right">Book</a>
