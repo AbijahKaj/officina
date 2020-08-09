@@ -92,6 +92,7 @@ class OfficeFormType extends AbstractType
                     'attr' => ['class' => 'form-control'],
                     'mapped' => false,
                     'multiple' => true,
+                    'required' => false,
                     'constraints' => [
                         new All([
                             new Image([
