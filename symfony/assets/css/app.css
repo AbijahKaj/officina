@@ -72,3 +72,8 @@ img.latest-image{
     width: 350px;
     height: 246px;
 }
+label.required:after {
+    content: " *";
+    color: #dc3545;
+    font-size: 12px;
+}
