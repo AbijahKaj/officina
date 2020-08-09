@@ -20,6 +20,7 @@ class OfficeRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param $uid
      * @return Office[] Returns an array of Office objects
      */
     public function findAllByOwner($uid)
@@ -32,6 +33,11 @@ class OfficeRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @param string $query
+     * @param int $limit
+     * @return Office[] Returns an array of Office objects
+     */
     public function findAllMatching(string $query, int $limit = 5)
     {
         return $this->createQueryBuilder('o')
@@ -44,6 +50,14 @@ class OfficeRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getPriceRange()
+    {
+        return $this->createQueryBuilder('o')
+            ->select('o.price')
+            ->groupBy('o.price')
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Office[] Returns an array of Office objects
     //  */
