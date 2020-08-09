@@ -151,7 +151,7 @@ class Order
         return $this->office;
     }
 
-    public function setOfficeId(int $office): self
+    public function setOffice(Office $office): self
     {
         $this->office = $office;
 
