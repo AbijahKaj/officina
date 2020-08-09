@@ -35,7 +35,7 @@ class Order
     private $booked_by;
 
     /**
-     * @ORM\Column(type="decimal", precision=7, scale=2)
+     * @ORM\Column(type="decimal", precision=30, scale=2)
      */
     private $price;
 

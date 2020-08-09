@@ -75,8 +75,11 @@ class OfficeController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($office);
-        foreach ($office->getImages() as $image)
-            $this->deleteFile($this->getParameter('upload_directory').$image);
+        if($images = $office->getImages()){
+            foreach ($images as $image)
+                $this->deleteFile($this->getParameter('upload_directory').$image);
+        }
+
         $entityManager->flush();
     }
     public function deleteFile(string $filename)
