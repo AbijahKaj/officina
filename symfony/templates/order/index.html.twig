@@ -24,7 +24,7 @@
                 <tr>
                     <td>{{ order.id }}</td>
                     <td>{{ order.office ? order.office.id : '' }}</td>
-                    <td>{{ order.price }}</td>
+                    <td>${{ order.price }}</td>
                     <td>{{ order.fromDate ? order.fromDate|date('Y-m-d') : '' }}</td>
                     <td>{{ order.untilDate ? order.untilDate|date('Y-m-d') : '' }}</td>
                     <td>
