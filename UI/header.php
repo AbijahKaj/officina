@@ -24,7 +24,7 @@
 
     <!-- Navbar -->
     <header>
-        <div class="container position-relative">
+        <div class="container-fluid position-relative">
             <nav class="navbar navbar-expand-lg navbar-light bg-danger pr-3 pl-3">
                 <a class="navbar-brand text-success logo" href="index.php">
                     <img src="img/logo.png" alt="Officina Logo">
