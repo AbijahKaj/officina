@@ -62,10 +62,29 @@ class MainController extends AbstractController {
         }
         return $this->render('office/entries.html.twig', [
             'entries' => $data,
-            'geojson' => $geojson
+            'geojson' => $geojson,
+            'latest' => $this->getLatestOffices()
         ]);
     }
+    public function getLatestOffices(){
+        $array = $this->officePostRepository->getLatest();
+        $data =  array();
+        foreach ($array as $row) {
+            $_office = array(
+                'id' => $row->getId(),
+                'name' => $row->getName(),
+                'image' => $row->getImages()[0],
+                'address' => $row->getLocation(),
+                'user' => $row->getUser(),
+                'image_count' => count($row->getImages()),
+                'posted_on' => date('d M Y',$row->getPostedOn()),
+                'price' => $row->getPrice()
+            );
 
+            $data[] = $_office;
+        }
+        return $data;
+    }
 	/**
 	 * @Route("/post", name="post_office")
 	 *
@@ -81,6 +100,7 @@ class MainController extends AbstractController {
 	    $office = new Office();
 
 	    $office->setUser($this->getUser()->getID());
+	    $office->setPostedOn(time());
 
 	    $form = $this->createForm(OfficeFormType::class, $office);
 	    $form->handleRequest($request);
