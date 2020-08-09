@@ -1,51 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Order index{% endblock %}
+{% block title %}My Orders{% endblock %}
 
 {% block body %}
-    <h1>My orders</h1>
+    <div class="col-10 offset-1">
+        <h1>My orders</h1>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Office</th>
-            <th>Price</th>
-            <th>From</th>
-            <th>Until</th>
-            <th>Approved</th>
-            <th>Remarks</th>
-            <th>actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for order in orders %}
+        <table class="table table-striped table-m">
+            <thead>
             <tr>
-                <td>{{ order.id }}</td>
-                <td>{{ order.office ? order.office.id : '' }}</td>
-                <td>{{ order.price }}</td>
-                <td>{{ order.fromDate ? order.fromDate|date('Y-m-d') : '' }}</td>
-                <td>{{ order.untilDate ? order.untilDate|date('Y-m-d') : '' }}</td>
-                <td>
-                    {% if order.approved  == '0' %}
-                        <span class="badge badge-pill badge-danger">Rejected</span>
-                    {% elseif order.approved  == '1' %}
-                        <span class="badge badge-pill badge-success">Approved</span>
-                    {% else %}
-                        <span class="badge badge-pill badge-primary">Pending</span>
-                    {% endif %}
-                </td>
-                <td>{{ order.remarks }}</td>
-                <td>
-                    <a href="{{ path('order_show', {'id': order.id}) }}">show</a>
-                </td>
+                <th>Id</th>
+                <th>Office</th>
+                <th>Price</th>
+                <th>From</th>
+                <th>Until</th>
+                <th>Approved</th>
+                <th>Remarks</th>
+                <th>actions</th>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.office ? order.office.id : '' }}</td>
+                    <td>{{ order.price }}</td>
+                    <td>{{ order.fromDate ? order.fromDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ order.untilDate ? order.untilDate|date('Y-m-d') : '' }}</td>
+                    <td>
+                        {% if order.approved  == '0' %}
+                            <span class="badge badge-pill badge-danger">Rejected</span>
+                        {% elseif order.approved  == '1' %}
+                            <span class="badge badge-pill badge-success">Approved</span>
+                        {% else %}
+                            <span class="badge badge-pill badge-primary">Pending</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ order.remarks }}</td>
+                    <td>
+                        <a href="{{ path('order_show', {'id': order.id}) }}">show</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

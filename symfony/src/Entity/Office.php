@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\OfficeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=OfficeRepository::class)
@@ -39,6 +40,7 @@ class Office
 
     /**
      * @ORM\Column(type="decimal", precision=7, scale=2)
+     * @Assert\Regex("/^\d+(\.\d+)?/")
      */
     private $price;
 
