@@ -1,7 +1,7 @@
 # Officina
 Hackathon project - Office rental service
 
-### Check it working here: [Amazon AWS Deployment][deployment]
+### Check it working here: [Our Amazon AWS Deployment][deployment]
 
 As a result of COVID-19, many companies have been forced to function with working remotely employees and to adopt technologies that enable collaboration from a distance.
 
