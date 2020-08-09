@@ -1,7 +1,7 @@
 # Officina
 Hackathon project - Office rental service
 
-### Check it working here: https://1cdf24441717.ngrok.io
+### Check it working here: [Amazon AWS Deployment][deployment]
 
 As a result of COVID-19, many companies have been forced to function with working remotely employees and to adopt technologies that enable collaboration from a distance.
 
@@ -67,3 +67,4 @@ bin/console doctrine:schema:update --force
 Navigate to [localhost:8001](http://localhost/) in your browser
 
 [sf_server]: https://symfony.com/doc/current/setup/symfony_server.html
+[deployment]: http://ec2-52-15-214-16.us-east-2.compute.amazonaws.com
