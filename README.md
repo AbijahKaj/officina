@@ -15,13 +15,13 @@ Officina is a platform for employers to put their office for renting or people w
 
 ## How does it work?
 Browse our catalog of nearby available offices and pick the one you want or rent your office.
-### Enhanced search
+#### Enhanced search
 Use our search tool to find any office by location or price range, you can also use the map to locate offices near you, there's also a list of nearby availlable offices, so just click on one and the map shows you where it's located.
-### Third-party login
+#### Third-party login
 Don't have an account on our service? Don't worry, we support login through third-party services such as Facebook, Google and Auth0.
-### Quick booking process
+#### Quick booking process
 Our booking process is straight forward and fully functional
-### Post an office for renting
+#### Post an office for renting
 It's very easy to post an office, just locate it on the map and add a description and rent price, et voilà, your office is now open for renting.
  
   
