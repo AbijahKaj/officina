@@ -155,146 +155,32 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 col-md-4">
-                    <div class="card card-list">
-                        <a href="#">
-                            <div class="card-img">
-                                <div class="badge images-badge"><i class="mdi mdi-image-filter"></i> 12</div>
-                                <span class="badge badge-primary">For Sale</span>
-                                <img class="card-img-top" src="img/list/1.png" alt="Card image cap">
-                            </div>
-                            <div class="card-body">
-                                <h2 class="text-primary mb-2 mt-0">
-                                    $130,000 <small>/month</small>
-                                </h2>
-                                <h5 class="card-title mb-2">House in Kent Street</h5>
-                                <h6 class="card-subtitle mt-1 mb-0 text-muted"><i class="mdi mdi-home-map-marker"></i> 127 Kent Sreet, Sydny, NEW 2000</h6>
-                            </div>
-                            <div class="card-footer">
-                                <span><i class="mdi mdi-sofa"></i> Beds : <strong>3</strong></span>
-                                <span><i class="mdi mdi-scale-bathroom"></i> Baths : <strong>2</strong></span>
-                                <span><i class="mdi mdi-move-resize-variant"></i> Area : <strong>587 sq ft</strong></span>
-                            </div>
-                        </a>
+                {% for office in latest %}
+                    <div class="col-lg-4 col-md-4">
+                        <div class="card card-list">
+                            <a href="#">
+                                <div class="card-img">
+                                    <div class="badge images-badge"><i class="mdi mdi-image-filter"></i> {{ office.image_count }}</div>
+                                    <span class="badge badge-secondary">For Rent</span>
+                                    <img class="card-img-top latest-image" src="{{ asset('uploads/' ~ office.image) }}" alt="Card image cap">
+                                </div>
+                                <div class="card-body">
+                                    <h2 class="text-primary mb-2 mt-0">
+                                        $ {{ office.price }} <small>/month</small>
+                                    </h2>
+                                    <h5 class="card-title mb-2">{{ office.name }}</h5>
+                                    <h6 class="card-subtitle mt-1 mb-0 text-muted"><i class="mdi mdi-home-map-marker"></i> {{ office.address }}</h6>
+                                </div>
+                                <div class="card-footer">
+                                    <span><i class="mdi mdi-scale-bathroom"></i> Posted On : <strong>{{ office.posted_on }}</strong></span>
+                                    {% if (app.user is not null and office.user != app.user.id) or app.user is null %}
+                                        <a href="{{ path('order_new', {'id': office.id}) }}" class="btn btn-success float-right">Book</a>
+                                    {% endif %}
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <div class="card card-list">
-                        <a href="#">
-                            <div class="card-img">
-                                <div class="badge images-badge"><i class="mdi mdi-image-filter"></i> 60</div>
-                                <span class="badge badge-secondary">For Rent</span>
-                                <img class="card-img-top" src="img/list/2.png" alt="Card image cap">
-                            </div>
-                            <div class="card-body">
-                                <h2 class="text-primary mb-2 mt-0">
-                                    $127,000 <small>/month</small>
-                                </h2>
-                                <h5 class="card-title mb-2">Family House in Hudson</h5>
-                                <h6 class="card-subtitle mt-1 mb-0 text-muted"><i class="mdi mdi-home-map-marker"></i> Hoboken, NJ, USA</h6>
-                            </div>
-                            <div class="card-footer">
-                                <span><i class="mdi mdi-sofa"></i> Beds : <strong>5</strong></span>
-                                <span><i class="mdi mdi-scale-bathroom"></i> Baths : <strong>3</strong></span>
-                                <span><i class="mdi mdi-move-resize-variant"></i> Area : <strong>300 sq ft</strong></span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <div class="card card-list">
-                        <a href="#">
-                            <div class="card-img">
-                                <div class="badge images-badge"><i class="mdi mdi-image-filter"></i> 03</div>
-                                <span class="badge badge-success">For Sale</span>
-                                <img class="card-img-top" src="img/list/3.png" alt="Card image cap">
-                            </div>
-                            <div class="card-body">
-                                <h2 class="text-primary mb-2 mt-0">
-                                    $55,000 <small>/month</small>
-                                </h2>
-                                <h5 class="card-title mb-2">Loft Above The City</h5>
-                                <h6 class="card-subtitle mt-1 mb-0 text-muted"><i class="mdi mdi-home-map-marker"></i> Hope Street (Stop P), London SW11, UK</h6>
-                            </div>
-                            <div class="card-footer">
-                                <span><i class="mdi mdi-sofa"></i> Beds : <strong>2</strong></span>
-                                <span><i class="mdi mdi-scale-bathroom"></i> Baths : <strong>1</strong></span>
-                                <span><i class="mdi mdi-move-resize-variant"></i> Area : <strong>100 sq ft</strong></span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-4">
-                    <div class="card card-list">
-                        <a href="#">
-                            <div class="card-img">
-                                <div class="badge images-badge"><i class="mdi mdi-image-filter"></i> 18</div>
-                                <span class="badge badge-danger">For Sale</span>
-                                <img class="card-img-top" src="img/list/4.png" alt="Card image cap">
-                            </div>
-                            <div class="card-body">
-                                <h2 class="text-primary mb-2 mt-0">
-                                    $25,000 <small>/month</small>
-                                </h2>
-                                <h5 class="card-title mb-2">Store Space Greenville</h5>
-                                <h6 class="card-subtitle mt-1 mb-0 text-muted"><i class="mdi mdi-home-map-marker"></i> 250-260 3rd St, Hoboken, NJ 07030, USA</h6>
-                            </div>
-                            <div class="card-footer">
-                                <span><i class="mdi mdi-sofa"></i> Beds : <strong>6</strong></span>
-                                <span><i class="mdi mdi-scale-bathroom"></i> Baths : <strong>4</strong></span>
-                                <span><i class="mdi mdi-move-resize-variant"></i> Area : <strong>987 sq ft</strong></span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <div class="card card-list">
-                        <a href="#">
-                            <div class="card-img">
-                                <div class="badge images-badge"><i class="mdi mdi-image-filter"></i> 04</div>
-                                <span class="badge badge-warning">For Rent</span>
-                                <img class="card-img-top" src="img/list/5.png" alt="Card image cap">
-                            </div>
-                            <div class="card-body">
-                                <h2 class="text-primary mb-2 mt-0">
-                                    $12,000 <small>/month</small>
-                                </h2>
-                                <h5 class="card-title mb-2">Villa in Melbourne</h5>
-                                <h6 class="card-subtitle mt-1 mb-0 text-muted"><i class="mdi mdi-home-map-marker"></i> NJ 07305, USA</h6>
-                            </div>
-                            <div class="card-footer">
-                                <span><i class="mdi mdi-sofa"></i> Beds : <strong>8</strong></span>
-                                <span><i class="mdi mdi-scale-bathroom"></i> Baths : <strong>4</strong></span>
-                                <span><i class="mdi mdi-move-resize-variant"></i> Area : <strong>120 sq ft</strong></span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <div class="card card-list">
-                        <a href="#">
-                            <div class="card-img">
-                                <div class="badge images-badge"><i class="mdi mdi-image-filter"></i> 45</div>
-                                <span class="badge badge-info">For Rent</span>
-                                <img class="card-img-top" src="img/list/6.png" alt="Card image cap">
-                            </div>
-                            <div class="card-body">
-                                <h2 class="text-primary mb-2 mt-0">
-                                    $356, 000 <small>/month</small>
-                                </h2>
-                                <h5 class="card-title mb-2">Villa on Hollywood Boulev</h5>
-                                <h6 class="card-subtitle mt-1 mb-0 text-muted"><i class="mdi mdi-home-map-marker"></i> The Village, Jersey City, NJ 07302, USA</h6>
-                            </div>
-                            <div class="card-footer">
-                                <span><i class="mdi mdi-sofa"></i> Beds : <strong>1</strong></span>
-                                <span><i class="mdi mdi-scale-bathroom"></i> Baths : <strong>3</strong></span>
-                                <span><i class="mdi mdi-move-resize-variant"></i> Area : <strong>187 sq ft</strong></span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
             <div class="row mt-4">
                 <div class="col-md-12 text-center">

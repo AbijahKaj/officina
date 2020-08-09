@@ -64,6 +64,11 @@ class Office
      */
     private $images = [];
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $postedOn;
+
 
     public function getId(): ?int
     {
@@ -175,6 +180,18 @@ class Office
     public function setImages(?array $images): self
     {
         $this->images = $images;
+
+        return $this;
+    }
+
+    public function getPostedOn(): ?int
+    {
+        return $this->postedOn;
+    }
+
+    public function setPostedOn(int $postedOn): self
+    {
+        $this->postedOn = $postedOn;
 
         return $this;
     }

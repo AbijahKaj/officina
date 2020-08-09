@@ -50,6 +50,20 @@ class OfficeRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @param int $limit
+     * @return Office[] Returns an array of Office objects
+     */
+    public function getLatest(int $limit = 6)
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.images != :null')
+            ->setParameter('null', 'N;')
+            ->addOrderBy('o.postedOn', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
     public function getPriceRange()
     {
         return $this->createQueryBuilder('o')

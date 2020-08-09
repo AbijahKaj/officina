@@ -68,3 +68,7 @@ h6.office{
 .logo > img{
     height: 80px;
 }
+img.latest-image{
+    width: 350px;
+    height: 246px;
+}
