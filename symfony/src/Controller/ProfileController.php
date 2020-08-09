@@ -15,6 +15,7 @@ class ProfileController extends AbstractController
     /** @var EntityManagerInterface */
     private $entityManager;
 
+    /** @var UserPasswordEncoderInterface */
     private $passwordEncoder;
 
     /** @var \App\Repository\OrderRepository */
@@ -46,7 +47,6 @@ class ProfileController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
 
-            // Save
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();

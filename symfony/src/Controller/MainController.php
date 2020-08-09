@@ -12,7 +12,8 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class MainController extends AbstractController {
+class MainController extends AbstractController
+{
 	/** @var EntityManagerInterface */
 	private $entityManager;
 
@@ -114,7 +115,6 @@ class MainController extends AbstractController {
                 }
                 $office->setImages($files);
 	        }
-	        
 
 	        $this->entityManager->persist($office);
 	        $this->entityManager->flush($office);
@@ -128,6 +128,7 @@ class MainController extends AbstractController {
 	        'form' => $form->createView()
 	    ]);
 	}
+
     /**
      * @Route("/search-auto", name="search_auto")
      *
