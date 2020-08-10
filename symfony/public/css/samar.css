@@ -1088,7 +1088,9 @@ nav.navbar .navbar-nav .nav-link, nav.navbar .navbar-nav .nav-link:hover {
 .footer .logo {
     margin: 0 0 0 -19px;
 }
-
+.footer h4 img {
+    height: 100px;
+}
 
 /* Mobile Media */
  @media (min-width: 0px) and (max-width: 767px) {
